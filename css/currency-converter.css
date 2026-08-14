@@ -1,0 +1,460 @@
+﻿/* =========================================
+   FINAP CURRENCY CONVERTER
+========================================= */
+
+.currency-page {
+
+    width: 100%;
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    padding: 70px 40px 100px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* TOP */
+
+.currency-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 40px;
+
+}
+
+
+.currency-label {
+
+    color: #d71920;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.currency-top h1 {
+
+    margin: 0;
+
+    color: #fff;
+
+    font-size: 40px;
+
+    font-weight: 800;
+
+}
+
+
+.currency-top p {
+
+    margin-top: 10px;
+
+    color:
+        rgba(255,255,255,0.55);
+
+    font-size: 14px;
+
+}
+
+
+/* BACK */
+
+.currency-back {
+
+    padding: 11px 18px;
+
+    border:
+        1px solid rgba(255,255,255,0.14);
+
+    border-radius: 9px;
+
+    color:
+        rgba(255,255,255,0.8);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    transition: 0.2s;
+
+}
+
+
+.currency-back:hover {
+
+    color: #fff;
+
+    border-color:
+        rgba(215,25,32,0.7);
+
+    background:
+        rgba(215,25,32,0.12);
+
+}
+
+
+/* CARD */
+
+.converter-card {
+
+    padding: 35px;
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.055),
+            rgba(255,255,255,0.018)
+        );
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.30);
+
+}
+
+
+/* TITLE */
+
+.converter-title {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 28px;
+
+    color: #fff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.nbu-status {
+
+    color: #65d68b;
+
+    font-size: 10px;
+
+}
+
+
+/* AMOUNT */
+
+.amount-block {
+
+    margin-bottom: 25px;
+
+}
+
+
+.amount-block label,
+.currency-select label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color:
+        rgba(255,255,255,0.5);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+
+}
+
+
+.amount-block input {
+
+    width: 100%;
+
+    height: 58px;
+
+    box-sizing: border-box;
+
+    padding: 0 18px;
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background:
+        rgba(0,0,0,0.22);
+
+    color: #fff;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+}
+
+
+.amount-block input:focus,
+.currency-select select:focus {
+
+    border-color:
+        rgba(215,25,32,0.65);
+
+}
+
+
+/* CURRENCY ROW */
+
+.currency-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 58px 1fr;
+
+    gap: 15px;
+
+    align-items: end;
+
+}
+
+
+.currency-select select {
+
+    width: 100%;
+
+    height: 56px;
+
+    padding: 0 15px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #111a29;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+}
+
+
+.currency-select select option {
+
+    background: #111a29;
+
+    color: #fff;
+
+}
+
+
+/* SWAP */
+
+.swap-button {
+
+    width: 58px;
+
+    height: 56px;
+
+    border:
+        1px solid rgba(215,25,32,0.35);
+
+    border-radius: 10px;
+
+    background:
+        rgba(215,25,32,0.08);
+
+    color: #fff;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.swap-button:hover {
+
+    background:
+        rgba(215,25,32,0.20);
+
+    border-color:
+        rgba(215,25,32,0.7);
+
+    transform: rotate(180deg);
+
+}
+
+
+/* RESULT */
+
+.result-box {
+
+    margin-top: 30px;
+
+    padding: 28px;
+
+    text-align: center;
+
+    border:
+        1px solid rgba(215,25,32,0.22);
+
+    border-radius: 14px;
+
+    background:
+        rgba(215,25,32,0.045);
+
+}
+
+
+.result-label {
+
+    color:
+        rgba(255,255,255,0.45);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.result-value {
+
+    color: #fff;
+
+    font-size: 38px;
+
+    font-weight: 800;
+
+}
+
+
+.rate-info {
+
+    margin-top: 8px;
+
+    color:
+        rgba(255,255,255,0.5);
+
+    font-size: 12px;
+
+}
+
+
+/* FOOTER */
+
+.converter-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 18px;
+
+    color:
+        rgba(255,255,255,0.35);
+
+    font-size: 10px;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .currency-page {
+
+        padding:
+            40px 20px 70px;
+
+    }
+
+    .currency-top {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+    .currency-top h1 {
+
+        font-size: 30px;
+
+    }
+
+    .converter-card {
+
+        padding: 22px;
+
+    }
+
+    .currency-row {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .swap-button {
+
+        width: 100%;
+
+    }
+
+    .converter-footer {
+
+        flex-direction: column;
+
+        gap: 7px;
+
+    }
+
+}
