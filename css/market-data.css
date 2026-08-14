@@ -1,0 +1,155 @@
+﻿.market-wrap {
+    position: absolute;
+    top: calc(120px - 2cm);
+    left: calc(50% - 5cm);
+    transform: translateX(-50%);
+
+    width: 500px;
+    max-width: calc(100% - 24px);
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+    z-index: 999;
+}
+
+.market-card {
+    position: relative;
+
+    height: 72px;
+    min-height: 0;
+
+    padding: 10px 14px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: linear-gradient(
+        145deg,
+        rgba(18, 31, 57, 0.96),
+        rgba(7, 15, 30, 0.98)
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+.market-card::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: #d71920;
+}
+
+.market-card:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(215, 25, 32, 0.4);
+}
+
+.market-card .pair {
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.1px;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    margin-bottom: 4px;
+}
+
+.market-card .rate {
+    font-size: 21px;
+    line-height: 1;
+
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+
+    color: #ffffff;
+
+    margin-bottom: 4px;
+}
+
+.market-card .change {
+    font-size: 9px;
+    line-height: 1;
+
+    font-weight: 600;
+
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.market-card .change.up {
+    color: #55e6a5;
+}
+
+.market-card .change.down {
+    color: #ff6868;
+}
+
+.market-card.flash-up {
+    animation: marketFlashUp 0.7s ease;
+}
+
+.market-card.flash-down {
+    animation: marketFlashDown 0.7s ease;
+}
+
+@keyframes marketFlashUp {
+    50% {
+        box-shadow:
+            0 0 18px rgba(85, 230, 165, 0.25);
+    }
+}
+
+@keyframes marketFlashDown {
+    50% {
+        box-shadow:
+            0 0 18px rgba(255, 104, 104, 0.25);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .market-wrap {
+        width: calc(100% - 20px);
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 7px;
+    }
+
+    .market-card {
+        height: 68px;
+        padding: 8px 11px;
+    }
+
+    .market-card .rate {
+        font-size: 19px;
+    }
+
+    .market-card .pair {
+        font-size: 8px;
+    }
+
+    .market-card .change {
+        font-size: 8px;
+    }
+}

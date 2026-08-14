@@ -1,0 +1,53 @@
+﻿.header {
+    position: absolute;
+    top: 20px;
+    left: 7vw;
+    right: 7vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    z-index: 100;
+}
+
+/* ЛОГО */
+.logo {
+    height: 100px;
+}
+
+/* МЕНЮ */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+/* ЗВИЧАЙНІ ЛІНКИ */
+.nav a {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    opacity: 1;
+    color: #00e5ff;
+}
+
+/* КНОПКА ВИЗНАЧЕННЯ */
+.nav a:last-child {
+    padding: 10px 18px;
+    border: 1px solid rgba(0,229,255,0.6);
+    border-radius: 8px;
+
+    opacity: 1;
+    color: #00e5ff;
+}
+
+.nav a:last-child:hover {
+    background: rgba(0,229,255,0.1);
+}

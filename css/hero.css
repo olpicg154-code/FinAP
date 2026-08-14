@@ -1,0 +1,160 @@
+.hero-section {
+
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    padding: 120px 7vw 60px;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 42%;
+
+    pointer-events: none;
+}
+
+
+.hero-label {
+
+    margin-bottom: 28px;
+
+    color: #00e5ff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 12px rgba(0,229,255,0.6);
+}
+
+
+.hero-content h1 {
+
+    margin: 0;
+
+    font-size: clamp(52px, 6vw, 92px);
+
+    line-height: 0.95;
+
+    font-weight: 700;
+
+    letter-spacing: -4px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 40px rgba(255,255,255,0.05);
+}
+
+
+.hero-content p {
+
+    max-width: 480px;
+
+    margin-top: 35px;
+
+    color: rgba(255,255,255,0.48);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   3D VISUAL
+========================= */
+
+.hero-visual {
+
+    position: absolute;
+
+    right: 0;
+    top: 0;
+
+    width: 65%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: auto;
+}
+
+
+#financial-wireframe {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+}
+
+
+/* =========================
+   BOTTOM
+========================= */
+
+.hero-bottom {
+
+    position: absolute;
+
+    bottom: 30px;
+
+    left: 7vw;
+    right: 7vw;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    opacity: 0.5;
+}
+
+
+.hero-bottom span {
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    color: #ffffff;
+}
+
+
+.hero-line {
+
+    height: 1px;
+
+    flex: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.18)
+        );
+}
