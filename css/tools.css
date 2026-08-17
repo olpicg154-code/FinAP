@@ -286,3 +286,34 @@
 .result-box.low{border:1px solid rgba(0,255,157,0.4);}
 .result-box.medium{border:1px solid rgba(255,209,102,0.4);}
 .result-box.high{border:1px solid rgba(255,77,79,0.4);}
+
+.q-card{
+    background:#0f172a;
+    padding:30px;
+    border-radius:16px;
+    text-align:center;
+    max-width:500px;
+    margin:0 auto;
+}
+
+.q-title{
+    color:#94a3b8;
+    margin-bottom:10px;
+}
+
+.answer-btn{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    background:#1e293b;
+    color:#fff;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.answer-btn:hover{
+    background:#334155;
+}
