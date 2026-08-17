@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зміна показника</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tools.css">
+</head>
+
+<body>
+
+<main class="tools-page">
+
+    <div class="tools-top">
+        <div>
+            <div class="currency-label">FINAP TOOL</div>
+            <h1>Зміна показника</h1>
+            <p>Розрахунок відсоткової зміни</p>
+        </div>
+
+        <a href="tools.html" class="back-button">
+            ← ДО ІНСТРУМЕНТІВ
+        </a>
+    </div>
+
+    <section class="converter-card">
+
+        <div class="converter-title">
+            <span>РОЗРАХУНОК</span>
+            <span>● %</span>
+        </div>
+
+        <div class="currency-row">
+            <div class="currency-select">
+                <label>Було</label>
+                <input id="old" type="number" placeholder="100">
+            </div>
+
+            <div class="currency-select">
+                <label>Стало</label>
+                <input id="new" type="number" placeholder="120">
+            </div>
+        </div>
+
+        <div class="result-box">
+            <div class="result-label">ЗМІНА</div>
+            <div id="result" class="result-value">--</div>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/percent-change.js"></script>
+
+</body>
+</html>

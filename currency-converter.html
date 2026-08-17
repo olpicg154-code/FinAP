@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Конвертер валют</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/tools.css">
+</head>
+
+<body>
+
+<main class="tools-page">
+
+<div class="tools-top">
+    <div>
+        <div class="currency-label">FINAP TOOL</div>
+        <h1>Конвертер валют</h1>
+        <p>Швидкий перерахунок валют</p>
+    </div>
+
+    <a href="tools.html" class="back-button">← ДО ІНСТРУМЕНТІВ</a>
+</div>
+
+<section class="converter-card">
+
+<div class="currency-row">
+    <div class="currency-select">
+        <label>Сума</label>
+        <input id="amount" type="number">
+    </div>
+
+    <div class="currency-select">
+        <label>З</label>
+        <select id="from">
+            <option>USD</option>
+            <option>EUR</option>
+            <option>UAH</option>
+        </select>
+    </div>
+
+    <div class="currency-select">
+        <label>В</label>
+        <select id="to">
+            <option>UAH</option>
+            <option>USD</option>
+            <option>EUR</option>
+        </select>
+    </div>
+</div>
+
+<div class="result-box">
+    <div class="result-label">РЕЗУЛЬТАТ</div>
+    <div id="result" class="result-value">--</div>
+</div>
+
+</section>
+
+</main>
+
+<script src="js/currency-converter.js"></script>
+
+</body>
+</html>

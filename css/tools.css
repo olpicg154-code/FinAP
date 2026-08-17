@@ -280,3 +280,9 @@
     opacity: 0.7;
 }
 
+.risk-low{color:#00ff9d;}
+.risk-medium{color:#ffd166;}
+.risk-high{color:#ff4d4f;}
+.result-box.low{border:1px solid rgba(0,255,157,0.4);}
+.result-box.medium{border:1px solid rgba(255,209,102,0.4);}
+.result-box.high{border:1px solid rgba(255,77,79,0.4);}

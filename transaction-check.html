@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перевірка транзакцій</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tools.css">
+</head>
+
+<body>
+
+<main class="tools-page">
+
+    <div class="tools-top">
+        <div>
+            <div class="currency-label">FINAP TOOL</div>
+            <h1>Перевірка транзакцій</h1>
+            <p>Аналіз підозрілих операцій</p>
+        </div>
+
+        <a href="tools.html" class="back-button">
+            ← ДО ІНСТРУМЕНТІВ
+        </a>
+    </div>
+
+    <section class="converter-card">
+
+        <div class="converter-title">
+            <span>АНАЛІЗ</span>
+            <span>● AML</span>
+        </div>
+
+        <div class="currency-row">
+
+            <div class="currency-select">
+                <label>Сума ($)</label>
+                <input id="amount" type="number" placeholder="50000">
+            </div>
+
+            <div class="currency-select">
+                <label>Країна</label>
+                <select id="country">
+                    <option value="UA">Україна</option>
+                    <option value="PL">Польща</option>
+                    <option value="DE">Німеччина</option>
+                    <option value="US">США</option>
+                    <option value="GB">Велика Британія</option>
+                    <option value="TR">Туреччина</option>
+                    <option value="AE">ОАЕ</option>
+                    <option value="CY">Кіпр</option>
+                    <option value="VG">BVI</option>
+                    <option value="PA">Панама</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="currency-row">
+
+            <div class="currency-select">
+                <label>Тип клієнта</label>
+                <select id="client">
+                    <option value="normal">Звичайний</option>
+                    <option value="risk">Підвищений ризик</option>
+                    <option value="pep">PEP</option>
+                </select>
+            </div>
+
+            <div class="currency-select">
+                <label>Частота операцій</label>
+                <select id="frequency">
+                    <option value="low">Рідко</option>
+                    <option value="medium">Середньо</option>
+                    <option value="high">Часто</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="result-box">
+            <div class="result-label">СТАТУС</div>
+            <div id="status" class="result-value">--</div>
+            <div id="details" class="rate-info">Очікування даних</div>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/transaction-check.js"></script>
+
+</body>
+</html>

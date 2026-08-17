@@ -1,12 +1,4 @@
-﻿const country = document.getElementById("country");
-const amount = document.getElementById("amount");
-const client = document.getElementById("client");
-
-const result = document.getElementById("riskResult");
-const details = document.getElementById("riskDetails");
-
-
-function getCountryScore(val) {
+﻿function getScore(val) {
     const low = ["UA","PL","DE","US","GB"];
     const medium = ["TR","AE","CY"];
     const high = ["VG","PA"];
@@ -15,42 +7,60 @@ function getCountryScore(val) {
     if (medium.includes(val)) return 30;
     if (high.includes(val)) return 60;
 
-    return 0;
-}
-
-function getClientScore(val) {
     if (val === "low") return 10;
     if (val === "medium") return 30;
     if (val === "high") return 60;
+
     return 0;
 }
 
-function getAmountScore(val) {
-    if (val > 100000) return 60;
-    if (val > 50000) return 40;
-    if (val > 10000) return 20;
-    return 5;
-}
+function calculateRisk() {
+    const country = document.getElementById("country").value;
+    const amount = Number(document.getElementById("amount").value) || 0;
+    const client = document.getElementById("client").value;
 
-function calculate() {
+    const countryScore = getScore(country);
+    const clientScore = getScore(client);
 
-    const c = getCountryScore(country.value);
-    const a = getAmountScore(Number(amount.value));
-    const cl = getClientScore(client.value);
+    let amountScore = 0;
+    if (amount > 100000) amountScore = 40;
+    else if (amount > 50000) amountScore = 25;
+    else if (amount > 10000) amountScore = 10;
+    else amountScore = 5;
 
-    const total = c + a + cl;
+    const total = countryScore + clientScore + amountScore;
 
     let level = "Низький";
-    if (total > 80) level = "Високий";
-    else if (total > 40) level = "Середній";
+    let cssClass = "low";
+
+    if (total > 70) {
+        level = "Високий";
+        cssClass = "high";
+    } else if (total > 40) {
+        level = "Середній";
+        cssClass = "medium";
+    }
+
+    const result = document.getElementById("riskResult");
+    const details = document.getElementById("riskDetails");
+    const box = document.querySelector(".result-box");
 
     result.textContent = level;
+    result.className = "result-value risk-" + cssClass;
+
+    box.classList.remove("low","medium","high");
+    box.classList.add(cssClass);
 
     details.textContent =
-        `Країна: ${c} | Сума: ${a} | Клієнт: ${cl} | Бал: ${total}`;
+        "Країна: " + countryScore +
+        " | Сума: " + amountScore +
+        " | Клієнт: " + clientScore +
+        " | Бал: " + total;
 }
 
-document.querySelectorAll("input, select")
-    .forEach(el => el.addEventListener("input", calculate));
+if(document.getElementById("country")){
+document.getElementById("country").addEventListener("change", calculateRisk);
+document.getElementById("amount").addEventListener("input", calculateRisk);
+document.getElementById("client").addEventListener("change", calculateRisk);
+}
 
-calculate();
