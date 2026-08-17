@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AML / FATF Risk Check</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tools.css">
+</head>
+
+<body>
+
+<main class="tools-page">
+
+    <div class="tools-top">
+
+        <div>
+            <div class="currency-label">FINAP TOOL</div>
+            <h1>AML / FATF Risk Check</h1>
+            <p>Інформаційна оцінка факторів ризику фінансової операції</p>
+        </div>
+
+        <a href="tools.html" class="back-button">
+            ← ДО ІНСТРУМЕНТІВ
+        </a>
+
+    </div>
+
+    <section class="converter-card">
+
+        <div class="converter-title">
+            <span>ОЦІНКА РИЗИКУ</span>
+            <span class="nbu-status">● AML</span>
+        </div>
+
+        <div class="currency-row">
+
+            <div class="currency-select">
+                <label>Країна</label>
+                <select id="country">
+                    <option value="">Оберіть</option>
+                    <option value="UA">Україна</option>
+                    <option value="PL">Польща</option>
+                    <option value="DE">Німеччина</option>
+                    <option value="US">США</option>
+                    <option value="GB">Велика Британія</option>
+                    <option value="TR">Туреччина</option>
+                    <option value="AE">ОАЕ</option>
+                    <option value="CY">Кіпр</option>
+                    <option value="VG">BVI</option>
+                    <option value="PA">Панама</option>
+                </select>
+            </div>
+
+            <div class="currency-select">
+                <label>Сума ($)</label>
+                <input id="amount" type="number" placeholder="10000">
+            </div>
+
+        </div>
+
+        <div class="currency-row">
+
+            <div class="currency-select">
+                <label>Тип клієнта</label>
+                <select id="client">
+                    <option value="low">Звичайний</option>
+                    <option value="medium">Підвищений ризик</option>
+                    <option value="high">PEP / ризиковий</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="result-box">
+
+            <div class="result-label">РІВЕНЬ РИЗИКУ</div>
+
+            <div id="riskResult" class="result-value">
+                --
+            </div>
+
+            <div id="riskDetails" class="rate-info">
+                Введіть дані
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/aml-risk.js"></script>
+
+</body>
+</html>
+
