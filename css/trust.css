@@ -1,0 +1,46 @@
+﻿.trust-section{
+    padding:60px 20px;
+    background:#0b1220;
+    text-align:center;
+    overflow:hidden;
+    color:#fff;
+}
+
+.trust-title{
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:30px;
+    opacity:0.85;
+}
+
+.trust-marquee{
+    overflow:hidden;
+    position:relative;
+}
+
+.trust-track{
+    display:flex;
+    gap:80px;
+    align-items:center;
+    width:max-content;
+    animation:scroll 25s linear infinite;
+}
+
+.trust-logo{
+    height:34px;
+    width:auto;
+    filter:grayscale(100%) brightness(1.2);
+    opacity:0.7;
+    transition:0.3s;
+}
+
+.trust-logo:hover{
+    filter:grayscale(0%);
+    opacity:1;
+    transform:scale(1.1);
+}
+
+@keyframes scroll{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-50%); }
+}

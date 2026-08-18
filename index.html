@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/market-data.css">
 
-<link rel='stylesheet' href='css/social.css'></head>
+<link rel='stylesheet' href='css/social.css'><link rel="stylesheet" href="css/trust.css"></head>
 
 <body>
 
@@ -46,7 +46,7 @@ box-shadow:0 6px 20px rgba(0,0,0,0.3);
 
             <section id="hero"></section>
 
-            <section id="definitions"></section>
+            <section id="definitions"></section><div id="trust-container"></div>
 
             <section id="market-data"></section>
 
@@ -63,9 +63,19 @@ box-shadow:0 6px 20px rgba(0,0,0,0.3);
         src="js/main.js"
     ></script>
 
+<script>
+fetch("trust.html")
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById("trust-container").innerHTML = html;
+  });
+</script>
 </body>
 
 </html>
+
+
+
 
 
 
