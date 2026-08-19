@@ -19,7 +19,7 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm install rss-parser
+        run: npm install
 
       - name: Run news engine
         run: node news.js

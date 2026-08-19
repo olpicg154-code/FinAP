@@ -1,16 +1,8 @@
-{
-  "name": "finap",
+﻿{
+  "name": "finap-news-engine",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "main": "news.js",
   "dependencies": {
-    "three": "^0.185.1"
+    "rss-parser": "^3.13.0"
   }
 }
