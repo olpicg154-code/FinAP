@@ -1,0 +1,57 @@
+﻿#finapTicker{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:38px;
+  display:flex;
+  align-items:center;
+  background:#0b1220;
+  
+  overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* 🔴 RED BADGE */
+.finap-badge{
+  background:linear-gradient(135deg,#ff2d2d,#a10000);
+  color:#fff;
+  font-weight:700;
+  font-size:12px;
+  padding:0 14px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  white-space:nowrap;
+}
+
+/* 🔥 MOVING TEXT */
+.finap-track{
+  display:flex;
+  gap:60px;
+  white-space:nowrap;
+  padding-left:30px;
+  animation:scroll 12s linear infinite;
+}
+
+.finap-item{
+  color:rgba(255,255,255,0.85);
+  font-size:13px;
+  white-space:nowrap;
+}
+
+@keyframes finapScroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
+#finapTicker{
+  z-index:10000;
+}
+
+.finap-badge{
+  position:relative;
+  z-index:10001;
+  flex-shrink:0;
+}
+

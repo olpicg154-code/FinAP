@@ -24,3 +24,143 @@ a {
     min-height: 100vh;
     position: relative;
 }
+.finap-ticker {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(90deg, #050814, #0b1220);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    z-index: 999;
+}
+
+.ticker-track {
+    display: inline-block;
+    white-space: nowrap;
+    color: #cfd8ff;
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 100%;
+    animation: tickerMove 100s linear infinite;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.finap-ticker {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(90deg, #050814, #0b1220);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.ticker-badge {
+    background: #e11d48;
+    color: white;
+    font-weight: 700;
+    padding: 6px 14px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-right: 12px;
+    border-radius: 0 6px 6px 0;
+    flex-shrink: 0;
+}
+
+.ticker-track {
+    white-space: nowrap;
+    color: #cfd8ff;
+    font-size: 14px;
+    font-weight: 500;
+    animation: tickerMove 100s linear infinite;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.finap-ticker {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(90deg, #050814, #0b1220);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* ◊≈–¬ŒÕ»… ¡≈…ƒ∆ «À≤¬¿ */
+.ticker-badge {
+    position: relative;
+    z-index: 2;
+    background: #e11d48;
+    color: #fff;
+    font-weight: 700;
+    padding: 0 16px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+/* Ã¿— ¿ ƒÀﬂ —“–≤◊ » (˘Ó· ÌÂ Á‡ıÓ‰ËÎ‡ Ô≥‰ ·ÂÈ‰Ê) */
+.ticker-track-wrapper {
+    overflow: hidden;
+    flex: 1;
+}
+
+/* —¿Ã¿ —“–≤◊ ¿ */
+.ticker-track {
+    display: inline-block;
+    white-space: nowrap;
+    color: #cfd8ff;
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 20px;
+    animation: tickerMove 100s linear infinite;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.ticker-track {
+    
+}
+
+#finap-news-bar {
+    min-height: 40px;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.finap-ticker.loading {
+    opacity: 0.6;
+}
+
+.finap-ticker {
+    transition: opacity 0.4s ease;
+}
+
+
+.ticker-track {
+    animation-delay: 0s !important;
+}
+
+.finap-ticker {
+    animation-delay: 0s !important;
+    visibility: visible !important;
+}
+
