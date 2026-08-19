@@ -18,54 +18,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install RSS parser
+      - name: Install deps
         run: npm install rss-parser
 
-      - name: Generate news.json
-        run: node -e "
-        const Parser = require('rss-parser');
-        const fs = require('fs');
-        const parser = new Parser();
-
-        const sources = [
-          'https://bank.gov.ua/rss/news',
-          'https://minfin.com.ua/ua/rss/',
-          'https://liga.net/news/rss.xml'
-        ];
-
-        const keywords = ['банк','НБУ','подат','санкц'];
-
-        function isRelevant(title){
-          return keywords.some(k => title.toLowerCase().includes(k));
-        }
-
-        (async () => {
-          let all = [];
-
-          for (let url of sources) {
-            try {
-              const feed = await parser.parseURL(url);
-
-              feed.items.forEach(i => {
-                if (isRelevant(i.title)) {
-                  all.push({
-                    title: i.title,
-                    link: i.link,
-                    date: i.pubDate,
-                    isNew: true
-                  });
-                }
-              });
-
-            } catch(e){}
-          }
-
-          all = all.slice(0,10);
-
-          fs.writeFileSync('news.json', JSON.stringify(all, null, 2));
-          console.log('NEWS UPDATED');
-        })();
-        "
+      - name: Run news engine
+        run: node news.js
 
       - name: Commit results
         run: |
