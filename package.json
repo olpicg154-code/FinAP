@@ -3,12 +3,9 @@
   "version": "1.0.0",
   "main": "news.js",
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^1.19.0",
     "cheerio": "^1.2.0",
-    "three": "^0.185.1"
-=======
+    "three": "^0.185.1",
     "rss-parser": "^3.13.0"
->>>>>>> 7714e4a5777fb4cc092dfa7e7a2333b3d03ee75e
   }
 }
