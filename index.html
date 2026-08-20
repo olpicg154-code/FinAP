@@ -23,27 +23,25 @@
 
 <body>
 
-  <!-- 🔴 NEWS TICKER (ДИНАМІЧНИЙ) -->
+  <!-- 🔴 NEWS TICKER -->
   <div class="finap-ticker">
     <div class="ticker-badge">FINAP NEWS</div>
-
     <div class="ticker-track-wrapper">
       <div id="ticker" class="ticker-track"></div>
     </div>
   </div>
 
   <!-- 🔵 QUIZ BUTTON -->
-  <div style="position:fixed;top:20px;right:20px;z-index:9999;">
-    <a href="quiz.html" style="
-    padding:12px 20px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#1e3a8a,#0a2540);
-    color:#fff;
-    text-decoration:none;
-    font-weight:600;
-    box-shadow:0 6px 20px rgba(0,0,0,0.3);
-  ">
+  <div style="position:fixed;top:60px;right:20px;z-index:9999;">
+    <a href="quiz.html" class="finap-btn quiz-btn">
       ТЕСТИ
+    </a>
+  </div>
+
+  <!-- 🟣 PHOTO NEWS BUTTON -->
+  <div style="position:fixed;top:100px;right:20px;z-index:9999;">
+    <a href="photo-news.html" class="finap-btn photo-btn">
+      ФОТО
     </a>
   </div>
 
@@ -69,7 +67,7 @@
 
   <script type="module" src="js/main.js"></script>
 
-  <!-- 🔥 DYNAMIC TICKER ENGINE -->
+  <!-- TICKER -->
   <script>
     async function loadTicker() {
       try {
@@ -92,6 +90,7 @@
     });
   </script>
 
+  <!-- TRUST -->
   <script>
     fetch("trust.html")
       .then(r => r.text())

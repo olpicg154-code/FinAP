@@ -1,0 +1,36 @@
+.finap-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.2s ease;
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #e5e7eb;
+    backdrop-filter: blur(6px);
+}
+
+/* QUIZ */
+.quiz-btn {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
+}
+
+.quiz-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.45);
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* PHOTO */
+.photo-btn {
+    box-shadow: 0 0 10px rgba(148, 163, 184, 0.25);
+}
+
+.photo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 16px rgba(148, 163, 184, 0.45);
+    border-color: rgba(148, 163, 184, 0.4);
+}

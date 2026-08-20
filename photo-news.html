@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FinAP — Фото новини</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #0a0f1c;
+            color: #fff;
+            font-family: Arial;
+        }
+
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, #1e3a8a, #0a2540);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card img:hover {
+            transform: scale(1.05);
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* NAV BUTTONS */
+        .nav {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            user-select: none;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>Фото новини</h2>
+        <a href="index.html" class="back-btn">← Назад</a>
+    </div>
+
+    <div class="grid" id="gallery"></div>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox hidden">
+        <span class="close">&times;</span>
+
+        <div class="nav">
+            <div id="prev">‹</div>
+            <div id="next">›</div>
+        </div>
+
+        <img id="lightbox-img">
+    </div>
+
+    <script>
+        let images = [];
+        let currentIndex = 0;
+
+        async function loadGallery() {
+            const res = await fetch("images.json");
+            images = await res.json();
+
+            document.getElementById("gallery").innerHTML =
+                images.map((img, i) =>
+                    `<div class="card">
+                <img src="images/${img}" data-i="${i}">
+            </div>`
+                ).join("");
+        }
+
+        function openLightbox(i) {
+            currentIndex = i;
+            document.getElementById("lightbox-img").src = "images/" + images[i];
+            document.getElementById("lightbox").classList.remove("hidden");
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById("lightbox-img").src = "images/" + images[currentIndex];
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById("lightbox-img").src = "images/" + images[currentIndex];
+        }
+
+        /* OPEN */
+        document.addEventListener("click", (e) => {
+            const img = e.target.closest("img");
+            if (!img || !img.dataset.i) return;
+            openLightbox(+img.dataset.i);
+        });
+
+        /* CLOSE */
+        document.querySelector(".close").onclick = () => {
+            document.getElementById("lightbox").classList.add("hidden");
+        };
+
+        /* NAV BUTTONS */
+        document.getElementById("next").onclick = showNext;
+        document.getElementById("prev").onclick = showPrev;
+
+        /* KEYBOARD */
+        document.addEventListener("keydown", (e) => {
+            const lb = document.getElementById("lightbox");
+            if (lb.classList.contains("hidden")) return;
+
+            if (e.key === "Escape") lb.classList.add("hidden");
+            if (e.key === "ArrowRight") showNext();
+            if (e.key === "ArrowLeft") showPrev();
+        });
+
+        loadGallery();
+    </script>
+
+</body>
+
+</html>

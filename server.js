@@ -1,28 +1,29 @@
-const express = require("express");
-const cors = require("cors");
-const fetch = require("node-fetch");
+﻿const express = require("express");
+const fs = require("fs");
 const path = require("path");
 
 const app = express();
-app.use(cors());
+const IMAGES_DIR = path.join(__dirname, "images");
 
-// 🔵 1. САЙТ (все з C:\FinAP)
-app.use(express.static(path.join(__dirname)));
+app.use("/images", express.static(IMAGES_DIR));
 
-// 🔵 2. RSS PROXY (стабільний)
-app.get("/rss", async (req, res) => {
-  try {
-    const response = await fetch("https://finap.com.ua/feed/");
-    const data = await response.text();
+app.get("/api/images", (req, res) => {
+    try {
+        const files = fs.readdirSync(IMAGES_DIR);
 
-    res.setHeader("Content-Type", "application/xml");
-    res.send(data);
-  } catch (e) {
-    res.status(500).send("RSS error");
-  }
+        const images = files.filter(file =>
+            file.endsWith(".jpg") ||
+            file.endsWith(".png") ||
+            file.endsWith(".jpeg") ||
+            file.endsWith(".webp")
+        );
+
+        res.json(images);
+    } catch (err) {
+        res.status(500).json({ error: "Cannot read images folder" });
+    }
 });
 
-// 🔵 3. SERVER START
 app.listen(3000, () => {
-  console.log("FINAP SERVER RUNNING http://localhost:3000");
+    console.log("FinAP Image Server running on http://localhost:3000");
 });
