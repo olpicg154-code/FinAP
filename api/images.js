@@ -1,13 +1,21 @@
-﻿export default function handler(req, res) {
-  res.status(200).json([
-    "1.jpg",
-    "10 фактів про те, як Комісія захищає інвестора.png",
-    "АФІДЕВІТ.png",
-    "Банки розширюють фінансування бізнесу.png",
-    "Виключення учасника ТОВ.png",
-    "Е - нотаріат в дії.png",
-    "З серпня банки запроваджують ліміти.png",
-    "НБУ новий пакет змін.png",
-    "фото2.png"
-  ]);
+﻿import fs from "fs";
+import path from "path";
+
+export default function handler(req, res) {
+  try {
+    const dir = path.join(process.cwd(), "public/images");
+
+    const files = fs.readdirSync(dir);
+
+    const images = files.filter(file =>
+      file.endsWith(".jpg") ||
+      file.endsWith(".jpeg") ||
+      file.endsWith(".png") ||
+      file.endsWith(".webp")
+    );
+
+    res.status(200).json(images);
+  } catch (err) {
+    res.status(500).json({ error: "Cannot read images folder" });
+  }
 }
