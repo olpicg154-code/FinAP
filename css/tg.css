@@ -1,0 +1,27 @@
+﻿.tg-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background: #229ED9;
+    color: #fff;
+
+    padding: 12px 18px;
+    border-radius: 12px;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    z-index: 9999;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tg-btn:hover {
+    transform: scale(1.05);
+    transition: 0.2s;
+}

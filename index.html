@@ -3,92 +3,105 @@
 
 <head>
 
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinAP — Financial Intelligence</title>
 
-    <title>FinAP — Financial Intelligence</title>
-
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/hero.css">
-    <link rel="stylesheet" href="css/buttons.css">
-    <link rel="stylesheet" href="css/glossary.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/market-data.css">
-    <link rel="stylesheet" href="css/social.css">
-    <link rel="stylesheet" href="css/trust.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/buttons.css">
+  <link rel="stylesheet" href="css/glossary.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/market-data.css">
+  <link rel="stylesheet" href="css/social.css">
+  <link rel="stylesheet" href="css/trust.css">
+  <link rel="stylesheet" href="css/tg.css">
 
 </head>
 
 <body>
 
-<!-- 🔴 NEWS TICKER (ОДИН ЄДИНИЙ) -->
-<div class="finap-ticker">
-  <div class="ticker-badge">FINAP NEWS</div>
+  <!-- 🔴 NEWS TICKER (ДИНАМІЧНИЙ) -->
+  <div class="finap-ticker">
+    <div class="ticker-badge">FINAP NEWS</div>
 
-  <div class="ticker-track-wrapper">
-    <div class="ticker-track">
-
-      ● Банки розширюють фінансування бізнесу: факторинг і гарантії набирають популярності
-      | ● Е-нотаріат в дії: як Україна переходить до цифрового середовища
-      | ● Виключення учасника ТОВ може змінити структуру власності
-      | ● Змінили адресу чи персональні дані: коли потрібно повідомити податкову
-      | ● Ринок віртуальних активів в Україні: ключові питання запуску
-      | ● З серпня банки запроваджують ліміти на операції ФОПів та юросіб
-      | ● Санкції за останній тиждень: огляд ключових рішень
-      | ● Дайджест головних новин
-      | ● НБУ посилює контроль за валютними операціями
-      | ● Податкові наслідки операцій з іноземними компаніями
-
+    <div class="ticker-track-wrapper">
+      <div id="ticker" class="ticker-track"></div>
     </div>
   </div>
-</div>
 
-<!-- 🔵 QUIZ BUTTON -->
-<div style="position:fixed;top:20px;right:20px;z-index:9999;">
-<a href="quiz.html" style="
-padding:12px 20px;
-border-radius:10px;
-background:linear-gradient(135deg,#1e3a8a,#0a2540);
-color:#fff;
-text-decoration:none;
-font-weight:600;
-box-shadow:0 6px 20px rgba(0,0,0,0.3);
-">
-ТЕСТИ
-</a>
-</div>
+  <!-- 🔵 QUIZ BUTTON -->
+  <div style="position:fixed;top:20px;right:20px;z-index:9999;">
+    <a href="quiz.html" style="
+    padding:12px 20px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#1e3a8a,#0a2540);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  ">
+      ТЕСТИ
+    </a>
+  </div>
 
-<div id="app">
+  <div id="app">
 
     <header id="header"></header>
 
     <main>
 
-        <section id="hero"></section>
+      <section id="hero"></section>
 
-        <section id="definitions"></section>
+      <section id="definitions"></section>
 
-        <div id="trust-container"></div>
+      <div id="trust-container"></div>
 
-        <section id="market-data"></section>
+      <section id="market-data"></section>
 
     </main>
 
     <footer id="footer"></footer>
 
-</div>
+  </div>
 
-<script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 
-<script>
-fetch("trust.html")
-  .then(r => r.text())
-  .then(html => {
-    document.getElementById("trust-container").innerHTML = html;
-  });
-</script>
+  <!-- 🔥 DYNAMIC TICKER ENGINE -->
+  <script>
+    async function loadTicker() {
+      try {
+        const res = await fetch("news.json");
+        const data = await res.json();
+
+        const ticker = document.getElementById("ticker");
+        if (!ticker) return;
+
+        ticker.innerHTML = data.map(n => `● ${n.title}`).join(" | ");
+
+      } catch (e) {
+        console.log("Ticker error:", e.message);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadTicker();
+      setInterval(loadTicker, 60000);
+    });
+  </script>
+
+  <script>
+    fetch("trust.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("trust-container").innerHTML = html;
+      });
+  </script>
+
+  <script src="js/tg.js"></script>
 
 </body>
+
 </html>
