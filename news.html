@@ -4,11 +4,15 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>FinAP — Новини</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -20,10 +24,11 @@
         }
 
         body {
+
             background:
                 radial-gradient(
                     circle at top right,
-                    rgba(0, 180, 255, 0.08),
+                    rgba(0,180,255,.08),
                     transparent 35%
                 ),
                 #07111f;
@@ -36,12 +41,10 @@
                 sans-serif;
         }
 
-        /* =========================================
-           TOP BAR
-        ========================================= */
-
         .topbar {
+
             position: fixed;
+
             top: 0;
             left: 0;
             right: 0;
@@ -49,106 +52,116 @@
             height: 78px;
 
             display: flex;
+
             align-items: center;
             justify-content: space-between;
 
-            padding: 0 28px;
+            padding:
+                0 28px;
 
             z-index: 1000;
 
             background:
-                rgba(7, 17, 31, 0.88);
+                rgba(7,17,31,.88);
 
             border-bottom:
-                1px solid rgba(255, 255, 255, 0.06);
+                1px solid
+                rgba(255,255,255,.06);
 
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter:
+                blur(16px);
+
+            -webkit-backdrop-filter:
+                blur(16px);
         }
 
         .page-title {
+
             margin: 0;
 
             font-size: 24px;
+
             font-weight: 700;
 
             letter-spacing: 1px;
 
-            color: #ffffff;
-
             text-shadow:
-                0 0 8px rgba(0, 195, 255, 0.25);
+                0 0 8px
+                rgba(0,195,255,.25);
         }
 
-        /* =========================================
-           BACK BUTTON
-        ========================================= */
-
         .home-btn {
+
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
 
             min-width: 132px;
+
             height: 40px;
 
-            padding: 0 18px;
+            padding:
+                0 18px;
 
             border-radius: 10px;
 
             border:
-                1px solid rgba(77, 211, 255, 0.55);
+                1px solid
+                rgba(77,211,255,.55);
 
             background:
-                rgba(0, 168, 255, 0.07);
+                rgba(0,168,255,.07);
 
-            color: #dff8ff;
+            color:
+                #dff8ff;
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
             font-size: 12px;
+
             font-weight: 700;
 
-            letter-spacing: 0.8px;
+            letter-spacing: .8px;
 
             box-shadow:
-                0 0 6px rgba(0, 200, 255, 0.28),
-                inset 0 0 10px rgba(0, 200, 255, 0.04);
+                0 0 6px
+                rgba(0,200,255,.28),
+
+                inset 0 0 10px
+                rgba(0,200,255,.04);
 
             transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                border-color 0.2s ease,
-                background 0.2s ease;
+                .2s ease;
         }
 
         .home-btn:hover {
-            transform: translateY(-1px);
+
+            transform:
+                translateY(-1px);
 
             border-color:
-                rgba(77, 211, 255, 0.9);
+                rgba(77,211,255,.9);
 
             background:
-                rgba(0, 168, 255, 0.12);
+                rgba(0,168,255,.12);
 
             box-shadow:
-                0 0 10px rgba(0, 200, 255, 0.45),
-                0 0 20px rgba(0, 200, 255, 0.14),
-                inset 0 0 10px rgba(0, 200, 255, 0.06);
-        }
+                0 0 10px
+                rgba(0,200,255,.45),
 
-        .home-btn:active {
-            transform: scale(0.98);
+                0 0 20px
+                rgba(0,200,255,.14);
         }
-
-        /* =========================================
-           CONTENT
-        ========================================= */
 
         .page {
-            max-width: 1200px;
 
-            margin: 0 auto;
+            max-width:
+                1200px;
+
+            margin:
+                0 auto;
 
             padding:
                 118px
@@ -157,136 +170,425 @@
         }
 
         .news-heading {
-            margin-bottom: 28px;
+
+            margin-bottom:
+                30px;
         }
 
         .news-heading h1 {
-            margin: 0 0 8px;
 
-            font-size: 34px;
-            line-height: 1.1;
+            margin:
+                0 0 8px;
+
+            font-size:
+                34px;
         }
 
         .news-heading p {
+
             margin: 0;
 
             color:
-                rgba(255,255,255,0.55);
+                rgba(255,255,255,.55);
 
-            font-size: 14px;
+            font-size:
+                14px;
         }
 
-        /* =========================================
-           NEWS GRID
-        ========================================= */
+        .sources {
 
-        .news-grid {
-            display: grid;
+            display:
+                grid;
 
             grid-template-columns:
                 repeat(
-                    auto-fit,
-                    minmax(280px, 1fr)
+                    2,
+                    minmax(0,1fr)
                 );
 
-            gap: 18px;
+            gap:
+                20px;
         }
 
-        .news-card {
-            min-height: 190px;
+        .source-card {
 
-            padding: 22px;
+            display:
+                flex;
 
-            border-radius: 16px;
+            align-items:
+                center;
 
-            background:
-                rgba(255,255,255,0.035);
+            justify-content:
+                space-between;
+
+            gap:
+                20px;
+
+            min-height:
+                150px;
+
+            padding:
+                22px 24px;
+
+            border-radius:
+                18px;
 
             border:
-                1px solid rgba(255,255,255,0.08);
+                1px solid
+                rgba(77,211,255,.48);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(0,180,255,.07),
+                    rgba(255,255,255,.025)
+                );
 
             box-shadow:
-                0 10px 30px rgba(0,0,0,0.16);
+
+                0 0 8px
+                rgba(0,200,255,.20),
+
+                0 0 22px
+                rgba(0,200,255,.07),
+
+                inset 0 0 12px
+                rgba(0,200,255,.03);
 
             transition:
-                transform 0.2s ease,
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
+                .2s ease;
         }
 
-        .news-card:hover {
-            transform: translateY(-3px);
+        .source-card:hover {
+
+            transform:
+                translateY(-2px);
 
             border-color:
-                rgba(0, 195, 255, 0.28);
+                rgba(77,211,255,.85);
 
             box-shadow:
-                0 14px 36px rgba(0,0,0,0.22),
-                0 0 18px rgba(0,195,255,0.07);
+
+                0 0 10px
+                rgba(0,200,255,.38),
+
+                0 0 28px
+                rgba(0,200,255,.10);
         }
 
-        .news-date {
-            margin-bottom: 10px;
+        .source-info {
 
-            color: #69dfff;
+            display:
+                flex;
 
-            font-size: 11px;
-            font-weight: 700;
+            align-items:
+                center;
 
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
+            gap:
+                16px;
+
+            min-width:
+                0;
         }
 
-        .news-title {
-            margin: 0 0 10px;
+        .source-logo {
 
-            font-size: 18px;
-            line-height: 1.3;
-        }
+            display:
+                flex;
 
-        .news-text {
-            margin: 0;
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            width:
+                60px;
+
+            height:
+                60px;
+
+            flex-shrink:
+                0;
+
+            border-radius:
+                14px;
 
             color:
-                rgba(255,255,255,0.62);
+                #dff8ff;
 
-            font-size: 13px;
-            line-height: 1.55;
+            border:
+                1px solid
+                rgba(77,211,255,.55);
+
+            background:
+                rgba(0,180,255,.07);
+
+            box-shadow:
+                0 0 8px
+                rgba(0,200,255,.28),
+
+                inset 0 0 10px
+                rgba(0,200,255,.05);
+
+            font-size:
+                15px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1px;
         }
 
-        .empty {
-            padding: 40px 20px;
+        .source-title {
 
-            text-align: center;
+            margin:
+                0 0 6px;
+
+            font-size:
+                17px;
+        }
+
+        .source-description {
+
+            margin:
+                0;
 
             color:
-                rgba(255,255,255,0.45);
+                rgba(255,255,255,.55);
+
+            font-size:
+                12px;
+
+            line-height:
+                1.45;
         }
 
-        @media (max-width: 650px) {
+        .source-right {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            flex-shrink:
+                0;
+        }
+
+        .new-badge {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            min-width:
+                36px;
+
+            height:
+                29px;
+
+            padding:
+                0 9px;
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(
+                    239,
+                    68,
+                    68,
+                    .12
+                );
+
+            border:
+                1px solid
+                rgba(
+                    239,
+                    68,
+                    68,
+                    .55
+                );
+
+            color:
+                #ff8f8f;
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+
+            animation:
+                newsPulse
+                1.4s
+                ease-in-out
+                infinite;
+        }
+
+        .new-badge.hidden {
+            display: none;
+        }
+
+        @keyframes newsPulse {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(1);
+
+                box-shadow:
+                    0 0 8px
+                    rgba(239,68,68,.28);
+            }
+
+            50% {
+
+                transform:
+                    scale(1.08);
+
+                box-shadow:
+
+                    0 0 12px
+                    rgba(239,68,68,.65),
+
+                    0 0 22px
+                    rgba(239,68,68,.25);
+            }
+        }
+
+        .source-btn {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            min-height:
+                40px;
+
+            padding:
+                0 15px;
+
+            border-radius:
+                10px;
+
+            border:
+                1px solid
+                rgba(77,211,255,.55);
+
+            background:
+                rgba(0,180,255,.06);
+
+            color:
+                #dff8ff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                10px;
+
+            font-weight:
+                700;
+
+            letter-spacing:
+                .6px;
+
+            white-space:
+                nowrap;
+
+            transition:
+                .2s ease;
+        }
+
+        .source-btn:hover {
+
+            border-color:
+                rgba(77,211,255,.95);
+
+            background:
+                rgba(0,180,255,.11);
+
+            box-shadow:
+                0 0 10px
+                rgba(0,200,255,.45);
+        }
+
+        .updated {
+
+            margin-top:
+                20px;
+
+            color:
+                rgba(255,255,255,.35);
+
+            text-align:
+                center;
+
+            font-size:
+                11px;
+        }
+
+        @media (
+            max-width: 850px
+        ) {
+
+            .sources {
+
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+        @media (
+            max-width: 650px
+        ) {
 
             .topbar {
-                height: 68px;
+
+                height:
+                    68px;
 
                 padding:
-                    0
-                    14px;
+                    0 14px;
             }
 
             .page-title {
-                font-size: 18px;
+
+                font-size:
+                    18px;
             }
 
             .home-btn {
-                min-width: 112px;
-                height: 36px;
 
-                padding: 0 12px;
+                min-width:
+                    112px;
 
-                font-size: 10px;
+                height:
+                    36px;
+
+                font-size:
+                    10px;
             }
 
             .page {
+
                 padding:
                     98px
                     14px
@@ -294,9 +596,30 @@
             }
 
             .news-heading h1 {
-                font-size: 28px;
+
+                font-size:
+                    28px;
+            }
+
+            .source-card {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+            .source-right {
+
+                width:
+                    100%;
+
+                justify-content:
+                    flex-end;
             }
         }
+
     </style>
 
 </head>
@@ -312,7 +635,9 @@
         <a
             href="index.html"
             class="home-btn">
+
             НА ГОЛОВНУ
+
         </a>
 
     </header>
@@ -327,41 +652,256 @@
             </h1>
 
             <p>
-                Актуальні фінансові та регуляторні новини.
+                Свіжі офіційні новини фінансових регуляторів.
             </p>
 
         </section>
 
 
-        <section
-            id="newsGrid"
-            class="news-grid">
+        <section class="sources">
 
-            <div class="empty">
-                Завантаження новин...
-            </div>
+            <!-- FATF -->
+
+            <article class="source-card">
+
+                <div class="source-info">
+
+                    <div class="source-logo">
+                        FATF
+                    </div>
+
+                    <div>
+
+                        <h2 class="source-title">
+                            Financial Action Task Force
+                        </h2>
+
+                        <p class="source-description">
+                            Офіційні новини,
+                            заяви та публікації FATF.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="source-right">
+
+                    <span
+                        id="fatfBadge"
+                        class="new-badge hidden">
+                    </span>
+
+                    <a
+                        id="fatfButton"
+                        href="https://www.fatf-gafi.org/en/the-fatf/news.html"
+                        target="_blank"
+                        rel="noopener"
+                        class="source-btn">
+
+                        FATF →
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- НБУ -->
+
+            <article class="source-card">
+
+                <div class="source-info">
+
+                    <div class="source-logo">
+                        НБУ
+                    </div>
+
+                    <div>
+
+                        <h2 class="source-title">
+                            Національний банк України
+                        </h2>
+
+                        <p class="source-description">
+                            Офіційні новини,
+                            рішення та повідомлення НБУ.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="source-right">
+
+                    <span
+                        id="nbuBadge"
+                        class="new-badge hidden">
+                    </span>
+
+                    <a
+                        id="nbuButton"
+                        href="https://bank.gov.ua/ua/news"
+                        target="_blank"
+                        rel="noopener"
+                        class="source-btn">
+
+                        НБУ →
+
+                    </a>
+
+                </div>
+
+            </article>
 
         </section>
+
+
+        <div
+            id="updated"
+            class="updated">
+
+            Перевірка оновлень кожні 10 хвилин
+
+        </div>
 
     </main>
 
 
     <script>
 
-        async function loadNews() {
+        const REFRESH_MS =
+            10 * 60 * 1000;
 
-            const grid =
-                document.getElementById(
-                    "newsGrid"
+        const STORAGE_KEYS = {
+
+            fatf:
+                "finap_fatf_seen_items",
+
+            nbu:
+                "finap_nbu_seen_items"
+        };
+
+
+        function readSeen(
+            key
+        ) {
+
+            try {
+
+                const raw =
+                    localStorage.getItem(
+                        key
+                    );
+
+                if (!raw) {
+                    return [];
+                }
+
+                const data =
+                    JSON.parse(raw);
+
+                return Array.isArray(
+                    data
+                )
+                    ? data
+                    : [];
+
+            } catch {
+
+                return [];
+            }
+        }
+
+
+        function saveSeen(
+            key,
+            items
+        ) {
+
+            localStorage.setItem(
+                key,
+                JSON.stringify(
+                    items
+                )
+            );
+        }
+
+
+        function getFreshUnseen(
+            news,
+            storageKey
+        ) {
+
+            const seen =
+                new Set(
+                    readSeen(
+                        storageKey
+                    )
                 );
+
+            return news.filter(
+                item =>
+                    !seen.has(
+                        item.id
+                    )
+            );
+        }
+
+
+        function updateBadge(
+            badgeId,
+            news,
+            storageKey
+        ) {
+
+            const badge =
+                document.getElementById(
+                    badgeId
+                );
+
+            if (!badge) {
+                return;
+            }
+
+            const fresh =
+                getFreshUnseen(
+                    news,
+                    storageKey
+                );
+
+            if (
+                fresh.length > 0
+            ) {
+
+                badge.textContent =
+                    "+" +
+                    fresh.length;
+
+                badge.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                badge.classList.add(
+                    "hidden"
+                );
+            }
+        }
+
+
+        async function loadSources() {
 
             try {
 
                 const response =
                     await fetch(
-                        "news.json",
+                        "/api/source-news",
                         {
-                            cache: "no-store"
+                            cache:
+                                "no-store"
                         }
                     );
 
@@ -370,117 +910,235 @@
                 ) {
 
                     throw new Error(
-                        "News HTTP " +
+                        "HTTP " +
                         response.status
                     );
                 }
 
-                const news =
+                const data =
                     await response.json();
 
-                if (
-                    !Array.isArray(news) ||
-                    news.length === 0
-                ) {
+                const fatf =
+                    data.sources?.fatf;
 
-                    grid.innerHTML = `
-                        <div class="empty">
-                            Новин поки немає.
-                        </div>
-                    `;
+                const nbu =
+                    data.sources?.nbu;
 
-                    return;
-                }
+                const fatfNews =
+                    fatf?.success
+                        ? (
+                            fatf.news ||
+                            []
+                          )
+                        : [];
 
-                grid.innerHTML =
-                    news.map(
-                        item => {
+                const nbuNews =
+                    nbu?.success
+                        ? (
+                            nbu.news ||
+                            []
+                          )
+                        : [];
 
-                            const date =
-                                item.date ||
-                                "";
 
-                            const title =
-                                item.title ||
-                                "Без заголовка";
+                updateBadge(
+                    "fatfBadge",
+                    fatfNews,
+                    STORAGE_KEYS.fatf
+                );
 
-                            const text =
-                                item.description ||
-                                item.text ||
-                                "";
 
-                            return `
-                                <article
-                                    class="news-card">
+                updateBadge(
+                    "nbuBadge",
+                    nbuNews,
+                    STORAGE_KEYS.nbu
+                );
 
-                                    <div class="news-date">
-                                        ${escapeHtml(date)}
-                                    </div>
 
-                                    <h2
-                                        class="news-title">
-                                        ${escapeHtml(title)}
-                                    </h2>
+                const updated =
+                    document.getElementById(
+                        "updated"
+                    );
 
-                                    <p
-                                        class="news-text">
-                                        ${escapeHtml(text)}
-                                    </p>
+                const now =
+                    new Date();
 
-                                </article>
-                            `;
-                        }
-                    )
-                    .join("");
+                updated.textContent =
+                    "Остання перевірка: " +
+                    now.toLocaleTimeString(
+                        "uk-UA"
+                    ) +
+                    " · наступна через 10 хвилин";
 
             } catch (error) {
 
                 console.error(
-                    "News error:",
+                    "Source news error:",
                     error
                 );
 
-                grid.innerHTML = `
-                    <div class="empty">
-                        Не вдалося завантажити новини.
-                    </div>
-                `;
+                document
+                    .getElementById(
+                        "updated"
+                    )
+                    .textContent =
+                        "Не вдалося перевірити оновлення · повтор через 10 хвилин";
             }
         }
 
 
-        function escapeHtml(value) {
+        function markAsSeen(
+            source,
+            news
+        ) {
 
-            return String(value)
+            const key =
+                STORAGE_KEYS[
+                    source
+                ];
 
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
+            if (!key) {
+                return;
+            }
 
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                )
-
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-
-                .replaceAll(
-                    "'",
-                    "&#039;"
+            const existing =
+                new Set(
+                    readSeen(
+                        key
+                    )
                 );
+
+            news.forEach(
+                item =>
+                    existing.add(
+                        item.id
+                    )
+            );
+
+            /*
+             * Не накопичуємо безмежну кількість ID.
+             */
+
+            const trimmed =
+                Array.from(
+                    existing
+                ).slice(
+                    -200
+                );
+
+            saveSeen(
+                key,
+                trimmed
+            );
+
+            updateBadge(
+                source === "fatf"
+                    ? "fatfBadge"
+                    : "nbuBadge",
+
+                news,
+
+                key
+            );
         }
 
 
-        loadNews();
+        async function openSource(
+            source
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/source-news",
+                        {
+                            cache:
+                                "no-store"
+                        }
+                    );
+
+                if (
+                    !response.ok
+                ) {
+                    return;
+                }
+
+                const data =
+                    await response.json();
+
+                const sourceData =
+                    data.sources?.[
+                        source
+                    ];
+
+                const news =
+                    sourceData?.success
+                        ? (
+                            sourceData.news ||
+                            []
+                          )
+                        : [];
+
+                markAsSeen(
+                    source,
+                    news
+                );
+
+            } catch {
+                /* нічого */
+            }
+        }
+
+
+        document
+            .getElementById(
+                "fatfButton"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    openSource(
+                        "fatf"
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "nbuButton"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    openSource(
+                        "nbu"
+                    );
+
+                }
+            );
+
+
+        /*
+         * Перша перевірка.
+         */
+
+        loadSources();
+
+
+        /*
+         * Автоматичне оновлення
+         * кожні 10 хвилин.
+         */
+
+        setInterval(
+            loadSources,
+            REFRESH_MS
+        );
 
     </script>
 
