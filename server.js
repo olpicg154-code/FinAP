@@ -1,22 +1,22 @@
-// ============================================================
-// FINAP SERVER
-// Карта Рівного + FATF + НБУ
-// ============================================================
-
-const express = require("express");
+﻿const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const { setTimeout: wait } = require("timers/promises");
 
 const app = express();
-
-const PORT =
-    process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 
-// ============================================================
-// OVERPASS
-// ============================================================
+/* =========================================================
+   STATIC
+========================================================= */
+
+app.use(express.static("."));
+
+
+/* =========================================================
+   OVERPASS
+========================================================= */
 
 const OVERPASS_ENDPOINTS = [
     "https://overpass-api.de/api/interpreter",
@@ -25,68 +25,45 @@ const OVERPASS_ENDPOINTS = [
 ];
 
 
-// ============================================================
-// CACHE
-// ============================================================
+/* =========================================================
+   CACHE
+========================================================= */
 
-const CACHE_DIR =
-    path.join(__dirname, "data");
+const CACHE_DIR = path.join(__dirname, "data");
 
-if (
-    !fs.existsSync(CACHE_DIR)
-) {
-    fs.mkdirSync(
-        CACHE_DIR,
-        {
-            recursive: true
-        }
-    );
+if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR, {
+        recursive: true
+    });
 }
 
-const CACHE_TTL =
-    12 * 60 * 60;
+const CACHE_TTL = 12 * 60 * 60;
 
 
-// ============================================================
-// STATIC
-// ============================================================
-
-app.use(
-    express.static(".")
-);
-
-
-// ============================================================
-// GENERIC FETCH WITH TIMEOUT
-// ============================================================
+/* =========================================================
+   GENERIC FETCH WITH TIMEOUT
+========================================================= */
 
 async function fetchWithTimeout(
     url,
     options = {},
     timeout = 12000
 ) {
+    const controller = new AbortController();
 
-    const controller =
-        new AbortController();
-
-    const timer =
-        setTimeout(
-            () =>
-                controller.abort(),
-            timeout
-        );
+    const timer = setTimeout(
+        () => controller.abort(),
+        timeout
+    );
 
     try {
-
-        const response =
-            await fetch(
-                url,
-                {
-                    ...options,
-                    signal:
-                        controller.signal
-                }
-            );
+        const response = await fetch(
+            url,
+            {
+                ...options,
+                signal: controller.signal
+            }
+        );
 
         clearTimeout(timer);
 
@@ -101,16 +78,15 @@ async function fetchWithTimeout(
 }
 
 
-// ============================================================
-// OVERPASS QUERY WITH RETRIES
-// ============================================================
+/* =========================================================
+   OVERPASS QUERY
+========================================================= */
 
 async function queryOverpassWithRetries(
     query,
     tries = 3,
     backoff = 800
 ) {
-
     let lastError = null;
 
     for (
@@ -120,8 +96,7 @@ async function queryOverpassWithRetries(
     ) {
 
         for (
-            const endpoint of
-            OVERPASS_ENDPOINTS
+            const endpoint of OVERPASS_ENDPOINTS
         ) {
 
             try {
@@ -130,8 +105,7 @@ async function queryOverpassWithRetries(
                     await fetchWithTimeout(
                         endpoint,
                         {
-                            method:
-                                "POST",
+                            method: "POST",
 
                             headers: {
                                 "Content-Type":
@@ -143,17 +117,12 @@ async function queryOverpassWithRetries(
 
                             body:
                                 "data=" +
-                                encodeURIComponent(
-                                    query
-                                )
+                                encodeURIComponent(query)
                         },
                         12000
                     );
 
-                if (
-                    !response.ok
-                ) {
-
+                if (!response.ok) {
                     throw new Error(
                         `${endpoint} HTTP ${response.status}`
                     );
@@ -163,47 +132,34 @@ async function queryOverpassWithRetries(
 
             } catch (error) {
 
-                lastError =
-                    error;
+                lastError = error;
             }
         }
 
-        if (
-            attempt < tries
-        ) {
-
-            await wait(
-                backoff * attempt
-            );
+        if (attempt < tries) {
+            await wait(backoff * attempt);
         }
     }
 
     throw (
         lastError ||
-        new Error(
-            "Overpass unavailable"
-        )
+        new Error("Overpass unavailable")
     );
 }
 
 
-// ============================================================
-// CACHE HELPERS
-// ============================================================
+/* =========================================================
+   CACHE HELPERS
+========================================================= */
 
-function readCache(
-    filename
-) {
+function readCache(filename) {
 
-    const file =
-        path.join(
-            CACHE_DIR,
-            filename
-        );
+    const file = path.join(
+        CACHE_DIR,
+        filename
+    );
 
-    if (
-        !fs.existsSync(file)
-    ) {
+    if (!fs.existsSync(file)) {
         return null;
     }
 
@@ -216,9 +172,7 @@ function readCache(
             );
 
         const object =
-            JSON.parse(
-                raw
-            );
+            JSON.parse(raw);
 
         const now =
             Math.floor(
@@ -227,10 +181,8 @@ function readCache(
 
         if (
             object._ts &&
-            now - object._ts <
-                CACHE_TTL
+            now - object._ts < CACHE_TTL
         ) {
-
             return object.data;
         }
 
@@ -259,7 +211,6 @@ function writeCache(
             Math.floor(
                 Date.now() / 1000
             ),
-
         data
     };
 
@@ -267,9 +218,7 @@ function writeCache(
 
         fs.writeFileSync(
             file,
-            JSON.stringify(
-                object
-            ),
+            JSON.stringify(object),
             "utf8"
         );
 
@@ -283,83 +232,69 @@ function writeCache(
 }
 
 
-// ============================================================
-// OSM PARSER
-// ============================================================
+/* =========================================================
+   OSM PARSER
+========================================================= */
 
 function parseElementsToPlaces(
     elements,
     fallbackName
 ) {
 
-    return (
-        elements || []
-    )
-        .map(
-            element => {
+    return (elements || [])
+        .map(element => {
 
-                const lat =
-                    element.lat ??
-                    element.center?.lat;
+            const lat =
+                element.lat ??
+                element.center?.lat;
 
-                const lon =
-                    element.lon ??
-                    element.center?.lon;
+            const lon =
+                element.lon ??
+                element.center?.lon;
 
-                const tags =
-                    element.tags ||
-                    {};
+            const tags =
+                element.tags || {};
 
-                if (
-                    typeof lat !==
-                        "number" ||
-                    typeof lon !==
-                        "number"
-                ) {
-
-                    return null;
-                }
-
-                return {
-
-                    id:
-                        element.id,
-
-                    name:
-                        tags.name ||
-                        tags.brand ||
-                        tags.operator ||
-                        fallbackName,
-
-                    address:
-                        [
-                            tags["addr:street"],
-                            tags["addr:housenumber"]
-                        ]
-                        .filter(
-                            Boolean
-                        )
-                        .join(
-                            ", "
-                        ),
-
-                    lat,
-                    lon,
-
-                    source:
-                        "OpenStreetMap"
-                };
+            if (
+                typeof lat !== "number" ||
+                typeof lon !== "number"
+            ) {
+                return null;
             }
-        )
-        .filter(
-            Boolean
-        );
+
+            return {
+
+                id:
+                    element.id,
+
+                name:
+                    tags.name ||
+                    tags.brand ||
+                    tags.operator ||
+                    fallbackName,
+
+                address:
+                    [
+                        tags["addr:street"],
+                        tags["addr:housenumber"]
+                    ]
+                    .filter(Boolean)
+                    .join(", "),
+
+                lat,
+                lon,
+
+                source:
+                    "OpenStreetMap"
+            };
+        })
+        .filter(Boolean);
 }
 
 
-// ============================================================
-// BANKS API
-// ============================================================
+/* =========================================================
+   BANKS API
+========================================================= */
 
 app.get(
     "/api/banks",
@@ -394,8 +329,7 @@ app.get(
 
             const places =
                 parseElementsToPlaces(
-                    data.elements ||
-                    [],
+                    data.elements || [],
                     "Банк"
                 );
 
@@ -405,13 +339,8 @@ app.get(
             );
 
             res.json({
-
-                success:
-                    true,
-
-                count:
-                    places.length,
-
+                success: true,
+                count: places.length,
                 places
             });
 
@@ -423,35 +352,21 @@ app.get(
             );
 
             const cached =
-                readCache(
-                    cacheName
-                );
+                readCache(cacheName);
 
             if (cached) {
 
                 return res.json({
-
-                    success:
-                        true,
-
-                    count:
-                        cached.length,
-
-                    places:
-                        cached,
-
+                    success: true,
+                    count: cached.length,
+                    places: cached,
                     warning:
                         "Повернено кешовані дані"
                 });
             }
 
-            res.status(
-                502
-            ).json({
-
-                success:
-                    false,
-
+            res.status(502).json({
+                success: false,
                 error:
                     "Не вдалося отримати банки з OpenStreetMap"
             });
@@ -460,9 +375,9 @@ app.get(
 );
 
 
-// ============================================================
-// EXCHANGES API
-// ============================================================
+/* =========================================================
+   EXCHANGES API
+========================================================= */
 
 app.get(
     "/api/exchanges",
@@ -493,16 +408,12 @@ app.get(
             {
                 name:
                     "LION KURS",
-
                 address:
                     "Рівне, вул. Кулика і Гудачека, 23",
-
                 lat:
                     50.625864,
-
                 lon:
                     26.200237,
-
                 source:
                     "LION"
             },
@@ -510,16 +421,12 @@ app.get(
             {
                 name:
                     "LION KURS",
-
                 address:
                     "Рівне, вул. Соборна, 17",
-
                 lat:
                     50.61859,
-
                 lon:
                     26.25272,
-
                 source:
                     "LION"
             },
@@ -527,16 +434,12 @@ app.get(
             {
                 name:
                     "LION KURS",
-
                 address:
                     "Рівне, вул. Василя Червонія, 16",
-
                 lat:
                     50.6294,
-
                 lon:
                     26.272404,
-
                 source:
                     "LION"
             },
@@ -544,16 +447,12 @@ app.get(
             {
                 name:
                     "LION KURS",
-
                 address:
                     "Рівне, вул. Чорновола, 98а",
-
                 lat:
                     50.595306,
-
                 lon:
                     26.257934,
-
                 source:
                     "LION"
             },
@@ -561,16 +460,12 @@ app.get(
             {
                 name:
                     "LION KURS",
-
                 address:
                     "Рівне, вул. Княгині Ольги, 1",
-
                 lat:
                     50.616909,
-
                 lon:
                     26.26508,
-
                 source:
                     "LION"
             }
@@ -585,8 +480,7 @@ app.get(
 
             const osmPlaces =
                 parseElementsToPlaces(
-                    data.elements ||
-                    [],
+                    data.elements || [],
                     "Обмінник"
                 );
 
@@ -625,9 +519,7 @@ app.get(
             );
 
             const cached =
-                readCache(
-                    cacheName
-                );
+                readCache(cacheName);
 
             if (cached) {
 
@@ -686,9 +578,9 @@ app.get(
 );
 
 
-// ============================================================
-// HEALTH
-// ============================================================
+/* =========================================================
+   HEALTH
+========================================================= */
 
 app.get(
     "/api/health",
@@ -709,9 +601,9 @@ app.get(
 );
 
 
-// ============================================================
-// NEWS HELPERS
-// ============================================================
+/* =========================================================
+   XML HELPERS
+========================================================= */
 
 function decodeXml(
     value = ""
@@ -751,6 +643,11 @@ function decodeXml(
 }
 
 
+/* =========================================================
+   RSS PARSER
+   ТІЛЬКИ ОСТАННІ 24 ГОДИНИ
+========================================================= */
+
 function parseSourceRss(
     xml,
     sourceName
@@ -764,8 +661,7 @@ function parseSourceRss(
         ) || [];
 
     for (
-        const block of
-        blocks
+        const block of blocks
     ) {
 
         const titleMatch =
@@ -787,7 +683,6 @@ function parseSourceRss(
             !titleMatch ||
             !linkMatch
         ) {
-
             continue;
         }
 
@@ -826,7 +721,6 @@ function parseSourceRss(
             !title ||
             !url
         ) {
-
             continue;
         }
 
@@ -835,13 +729,8 @@ function parseSourceRss(
                 publishedAt
             )
         ) {
-
             continue;
         }
-
-        /*
-         * Тільки останні 24 години.
-         */
 
         const age =
             Date.now() -
@@ -855,7 +744,6 @@ function parseSourceRss(
                 60 *
                 1000
         ) {
-
             continue;
         }
 
@@ -875,18 +763,13 @@ function parseSourceRss(
         });
     }
 
-    /*
-     * Видаляємо дублікати.
-     */
-
     const unique = [];
 
     const seen =
         new Set();
 
     for (
-        const item of
-        items
+        const item of items
     ) {
 
         if (
@@ -894,7 +777,6 @@ function parseSourceRss(
                 item.url
             )
         ) {
-
             continue;
         }
 
@@ -907,15 +789,8 @@ function parseSourceRss(
         );
     }
 
-    /*
-     * Найсвіжіші першими.
-     */
-
     unique.sort(
-        (
-            a,
-            b
-        ) =>
+        (a, b) =>
             b.publishedAt -
             a.publishedAt
     );
@@ -923,6 +798,10 @@ function parseSourceRss(
     return unique;
 }
 
+
+/* =========================================================
+   GOOGLE NEWS RSS
+========================================================= */
 
 async function getGoogleNewsRss(
     query,
@@ -934,21 +813,13 @@ async function getGoogleNewsRss(
     const url =
         "https://news.google.com/rss/search" +
         "?q=" +
-        encodeURIComponent(
-            query
-        ) +
+        encodeURIComponent(query) +
         "&hl=" +
-        encodeURIComponent(
-            language
-        ) +
+        encodeURIComponent(language) +
         "&gl=" +
-        encodeURIComponent(
-            country
-        ) +
+        encodeURIComponent(country) +
         "&ceid=" +
-        encodeURIComponent(
-            edition
-        );
+        encodeURIComponent(edition);
 
     const response =
         await fetchWithTimeout(
@@ -966,9 +837,7 @@ async function getGoogleNewsRss(
             12000
         );
 
-    if (
-        !response.ok
-    ) {
+    if (!response.ok) {
 
         throw new Error(
             `Google News HTTP ${response.status}`
@@ -979,58 +848,148 @@ async function getGoogleNewsRss(
 }
 
 
-// ============================================================
-// SOURCE NEWS
-// FATF + NBU
-// ============================================================
+/* =========================================================
+   RESOLVE GOOGLE NEWS URL -> ORIGINAL URL
+========================================================= */
+
+async function resolveNewsUrl(
+    url
+) {
+
+    try {
+
+        const response =
+            await fetchWithTimeout(
+                url,
+                {
+                    method: "GET",
+                    redirect: "follow",
+
+                    headers: {
+                        "User-Agent":
+                            "Mozilla/5.0 FinAP News Monitor"
+                    }
+                },
+                10000
+            );
+
+        return (
+            response.url ||
+            url
+        );
+
+    } catch {
+
+        return url;
+    }
+}
+
+
+/* =========================================================
+   DIRECT RSS
+   ДЕРЖФІНМОНІТОРИНГ
+========================================================= */
+
+async function getFiuNews() {
+
+    const response =
+        await fetchWithTimeout(
+            "https://fiu.gov.ua/news.rss",
+            {
+                headers: {
+                    "User-Agent":
+                        "Mozilla/5.0 FinAP News Monitor",
+
+                    "Accept":
+                        "application/rss+xml, application/xml, text/xml"
+                }
+            },
+            12000
+        );
+
+    if (!response.ok) {
+
+        throw new Error(
+            `FIU RSS HTTP ${response.status}`
+        );
+    }
+
+    const xml =
+        await response.text();
+
+    return parseSourceRss(
+        xml,
+        "Держфінмоніторинг"
+    );
+}
+
+
+/* =========================================================
+   SOURCE NEWS CACHE
+========================================================= */
 
 const SOURCE_NEWS_CACHE =
     new Map();
 
+
+/* =========================================================
+   SOURCE NEWS
+   FATF + NBU + FIU + MOF + TAX
+========================================================= */
 
 async function getSourceNews() {
 
     const result = {
 
         fatf: {
-
-            success:
-                false,
-
-            count:
-                0,
-
-            news:
-                [],
-
+            success: false,
+            count: 0,
+            news: [],
             officialUrl:
                 "https://www.fatf-gafi.org/en/the-fatf/news.html"
         },
 
         nbu: {
-
-            success:
-                false,
-
-            count:
-                0,
-
-            news:
-                [],
-
+            success: false,
+            count: 0,
+            news: [],
             officialUrl:
                 "https://bank.gov.ua/ua/news"
+        },
+
+        fiu: {
+            success: false,
+            count: 0,
+            news: [],
+            officialUrl:
+                "https://fiu.gov.ua/"
+        },
+
+        mof: {
+            success: false,
+            count: 0,
+            news: [],
+            officialUrl:
+                "https://www.mof.gov.ua/uk/news"
+        },
+
+        tax: {
+            success: false,
+            count: 0,
+            news: [],
+            officialUrl:
+                "https://www.tax.gov.ua/media-tsentr/novini"
         }
     };
 
 
-    // ========================================================
-    // FATF — ДВА ЗАПИТИ
-    // ========================================================
+    /* =====================================================
+       FATF
+    ===================================================== */
 
     try {
 
-        const fatfQueries = [
+        const queries = [
 
             "site:fatf-gafi.org/en/news FATF",
 
@@ -1038,11 +997,10 @@ async function getSourceNews() {
 
         ];
 
-        const allFatf = [];
+        const all = [];
 
         for (
-            const query of
-            fatfQueries
+            const query of queries
         ) {
 
             try {
@@ -1061,7 +1019,7 @@ async function getSourceNews() {
                         "FATF"
                     );
 
-                allFatf.push(
+                all.push(
                     ...news
                 );
 
@@ -1074,18 +1032,13 @@ async function getSourceNews() {
             }
         }
 
-        /*
-         * Унікальні FATF новини.
-         */
+        const unique = [];
 
-        const uniqueFatf = [];
-
-        const seenFatf =
+        const seen =
             new Set();
 
         for (
-            const item of
-            allFatf
+            const item of all
         ) {
 
             const key =
@@ -1093,45 +1046,33 @@ async function getSourceNews() {
                 item.id;
 
             if (
-                seenFatf.has(
-                    key
-                )
+                seen.has(key)
             ) {
-
                 continue;
             }
 
-            seenFatf.add(
-                key
-            );
+            seen.add(key);
 
-            uniqueFatf.push(
+            unique.push(
                 item
             );
         }
 
-        uniqueFatf.sort(
-            (
-                a,
-                b
-            ) =>
+        unique.sort(
+            (a, b) =>
                 b.publishedAt -
                 a.publishedAt
         );
 
         result.fatf = {
 
-            success:
-                true,
+            success: true,
 
             count:
-                uniqueFatf.length,
+                unique.length,
 
             news:
-                uniqueFatf.slice(
-                    0,
-                    20
-                ),
+                unique.slice(0, 20),
 
             officialUrl:
                 "https://www.fatf-gafi.org/en/the-fatf/news.html"
@@ -1146,9 +1087,9 @@ async function getSourceNews() {
     }
 
 
-    // ========================================================
-    // NBU
-    // ========================================================
+    /* =====================================================
+       NBU
+    ===================================================== */
 
     try {
 
@@ -1166,10 +1107,19 @@ async function getSourceNews() {
                 "НБУ"
             );
 
+        for (
+            const item of news
+        ) {
+
+            item.url =
+                await resolveNewsUrl(
+                    item.url
+                );
+        }
+
         result.nbu = {
 
-            success:
-                true,
+            success: true,
 
             count:
                 news.length,
@@ -1189,14 +1139,149 @@ async function getSourceNews() {
     }
 
 
+    /* =====================================================
+       ДЕРЖФІНМОНІТОРИНГ
+    ===================================================== */
+
+    try {
+
+        const news =
+            await getFiuNews();
+
+        result.fiu = {
+
+            success: true,
+
+            count:
+                news.length,
+
+            news,
+
+            officialUrl:
+                "https://fiu.gov.ua/"
+        };
+
+    } catch (error) {
+
+        console.error(
+            "FIU source error:",
+            error.message
+        );
+    }
+
+
+    /* =====================================================
+       МІНФІН
+    ===================================================== */
+
+    try {
+
+        const xml =
+            await getGoogleNewsRss(
+                "site:mof.gov.ua/uk/news Мінфін",
+                "uk",
+                "UA",
+                "UA:uk"
+            );
+
+        const news =
+            parseSourceRss(
+                xml,
+                "Мінфін"
+            );
+
+        for (
+            const item of news
+        ) {
+
+            item.url =
+                await resolveNewsUrl(
+                    item.url
+                );
+        }
+
+        result.mof = {
+
+            success: true,
+
+            count:
+                news.length,
+
+            news,
+
+            officialUrl:
+                "https://www.mof.gov.ua/uk/news"
+        };
+
+    } catch (error) {
+
+        console.error(
+            "MOF source error:",
+            error.message
+        );
+    }
+
+
+    /* =====================================================
+       ДПС
+    ===================================================== */
+
+    try {
+
+        const xml =
+            await getGoogleNewsRss(
+                "site:tax.gov.ua/media-tsentr/novini ДПС",
+                "uk",
+                "UA",
+                "UA:uk"
+            );
+
+        const news =
+            parseSourceRss(
+                xml,
+                "ДПС"
+            );
+
+        for (
+            const item of news
+        ) {
+
+            item.url =
+                await resolveNewsUrl(
+                    item.url
+                );
+        }
+
+        result.tax = {
+
+            success: true,
+
+            count:
+                news.length,
+
+            news,
+
+            officialUrl:
+                "https://www.tax.gov.ua/media-tsentr/novini"
+        };
+
+    } catch (error) {
+
+        console.error(
+            "TAX source error:",
+            error.message
+        );
+    }
+
+
     return result;
 }
 
 
-// ============================================================
-// SOURCE NEWS API
-// Кеш 10 хвилин
-// ============================================================
+/* =========================================================
+   SOURCE NEWS API
+   CACHE: 10 MINUTES
+========================================================= */
 
 app.get(
     "/api/source-news",
@@ -1214,11 +1299,8 @@ app.get(
 
             if (
                 cached &&
-                now -
-                    cached.time <
-                    10 *
-                    60 *
-                    1000
+                now - cached.time <
+                    10 * 60 * 1000
             ) {
 
                 return res.json(
@@ -1249,7 +1331,6 @@ app.get(
                 {
                     time:
                         now,
-
                     data
                 }
             );
@@ -1270,9 +1351,7 @@ app.get(
                 error
             );
 
-            res.status(
-                502
-            ).json({
+            res.status(502).json({
 
                 success:
                     false,
@@ -1285,174 +1364,13 @@ app.get(
 );
 
 
-// ============================================================
-// START
-// ============================================================
-// ============================================================
-// SANCTIONS NEWS
-// РНБО + OFAC + EU
-// ============================================================
+/* =========================================================
+   SANCTIONS
+   РНБО + OFAC + EU
+========================================================= */
 
 const SANCTIONS_CACHE =
     new Map();
-
-function parseNewsRss(
-    xml,
-    sourceName
-) {
-
-    const items = [];
-
-    const blocks =
-        xml.match(
-            /<item>[\s\S]*?<\/item>/gi
-        ) || [];
-
-    for (
-        const block of
-        blocks
-    ) {
-
-        const titleMatch =
-            block.match(
-                /<title>([\s\S]*?)<\/title>/i
-            );
-
-        const linkMatch =
-            block.match(
-                /<link>([\s\S]*?)<\/link>/i
-            );
-
-        const dateMatch =
-            block.match(
-                /<pubDate>([\s\S]*?)<\/pubDate>/i
-            );
-
-        if (
-            !titleMatch ||
-            !linkMatch
-        ) {
-            continue;
-        }
-
-        const title =
-            decodeXml(
-                titleMatch[1]
-            )
-            .replace(
-                /<[^>]+>/g,
-                " "
-            )
-            .replace(
-                /\s+/g,
-                " "
-            )
-            .trim();
-
-        const url =
-            decodeXml(
-                linkMatch[1]
-            ).trim();
-
-        const dateText =
-            dateMatch
-                ? decodeXml(
-                    dateMatch[1]
-                ).trim()
-                : "";
-
-        const publishedAt =
-            Date.parse(
-                dateText
-            );
-
-        if (
-            !title ||
-            !url ||
-            !Number.isFinite(
-                publishedAt
-            )
-        ) {
-            continue;
-        }
-
-        /*
-         * Тільки останні 24 години.
-         */
-
-        const age =
-            Date.now() -
-            publishedAt;
-
-        if (
-            age < 0 ||
-            age >
-                24 *
-                60 *
-                60 *
-                1000
-        ) {
-            continue;
-        }
-
-        items.push({
-
-            id:
-                sourceName +
-                ":" +
-                url +
-                ":" +
-                publishedAt,
-
-            title,
-
-            url,
-
-            publishedAt,
-
-            source:
-                sourceName
-        });
-    }
-
-    const unique = [];
-
-    const seen =
-        new Set();
-
-    for (
-        const item of
-        items
-    ) {
-
-        if (
-            seen.has(
-                item.url
-            )
-        ) {
-            continue;
-        }
-
-        seen.add(
-            item.url
-        );
-
-        unique.push(
-            item
-        );
-    }
-
-    unique.sort(
-        (
-            a,
-            b
-        ) =>
-            b.publishedAt -
-            a.publishedAt
-    );
-
-    return unique;
-}
 
 
 async function googleSanctionsRss(
@@ -1462,49 +1380,12 @@ async function googleSanctionsRss(
     edition
 ) {
 
-    const url =
-        "https://news.google.com/rss/search" +
-        "?q=" +
-        encodeURIComponent(
-            query
-        ) +
-        "&hl=" +
-        encodeURIComponent(
-            language
-        ) +
-        "&gl=" +
-        encodeURIComponent(
-            country
-        ) +
-        "&ceid=" +
-        encodeURIComponent(
-            edition
-        );
-
-    const response =
-        await fetchWithTimeout(
-            url,
-            {
-                headers: {
-                    "User-Agent":
-                        "Mozilla/5.0 FinAP Sanctions Monitor",
-                    "Accept":
-                        "application/rss+xml, application/xml, text/xml"
-                }
-            },
-            12000
-        );
-
-    if (
-        !response.ok
-    ) {
-
-        throw new Error(
-            `RSS HTTP ${response.status}`
-        );
-    }
-
-    return await response.text();
+    return getGoogleNewsRss(
+        query,
+        language,
+        country,
+        edition
+    );
 }
 
 
@@ -1514,6 +1395,7 @@ async function getSanctionsNews() {
 
         rnbo: {
             success: false,
+            count: 0,
             news: [],
             officialUrl:
                 "https://drs.nsdc.gov.ua/"
@@ -1521,6 +1403,7 @@ async function getSanctionsNews() {
 
         ofac: {
             success: false,
+            count: 0,
             news: [],
             officialUrl:
                 "https://ofac.treasury.gov/recent-actions/sanctions-list-updates"
@@ -1528,6 +1411,7 @@ async function getSanctionsNews() {
 
         eu: {
             success: false,
+            count: 0,
             news: [],
             officialUrl:
                 "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
@@ -1535,9 +1419,9 @@ async function getSanctionsNews() {
     };
 
 
-    // ========================================================
-    // РНБО
-    // ========================================================
+    /* =====================================================
+       РНБО
+    ===================================================== */
 
     try {
 
@@ -1549,15 +1433,30 @@ async function getSanctionsNews() {
                 "UA:uk"
             );
 
+        const news =
+            parseSourceRss(
+                xml,
+                "РНБО"
+            );
+
+        for (
+            const item of news
+        ) {
+
+            item.url =
+                await resolveNewsUrl(
+                    item.url
+                );
+        }
+
         result.rnbo = {
 
             success: true,
 
-            news:
-                parseNewsRss(
-                    xml,
-                    "РНБО"
-                ),
+            count:
+                news.length,
+
+            news,
 
             officialUrl:
                 "https://drs.nsdc.gov.ua/"
@@ -1572,9 +1471,9 @@ async function getSanctionsNews() {
     }
 
 
-    // ========================================================
-    // OFAC
-    // ========================================================
+    /* =====================================================
+       OFAC
+    ===================================================== */
 
     try {
 
@@ -1586,15 +1485,30 @@ async function getSanctionsNews() {
                 "US:en"
             );
 
+        const news =
+            parseSourceRss(
+                xml,
+                "OFAC"
+            );
+
+        for (
+            const item of news
+        ) {
+
+            item.url =
+                await resolveNewsUrl(
+                    item.url
+                );
+        }
+
         result.ofac = {
 
             success: true,
 
-            news:
-                parseNewsRss(
-                    xml,
-                    "OFAC"
-                ),
+            count:
+                news.length,
+
+            news,
 
             officialUrl:
                 "https://ofac.treasury.gov/recent-actions/sanctions-list-updates"
@@ -1609,9 +1523,9 @@ async function getSanctionsNews() {
     }
 
 
-    // ========================================================
-    // EU
-    // ========================================================
+    /* =====================================================
+       EU
+    ===================================================== */
 
     try {
 
@@ -1623,15 +1537,30 @@ async function getSanctionsNews() {
                 "EU:en"
             );
 
+        const news =
+            parseSourceRss(
+                xml,
+                "EU"
+            );
+
+        for (
+            const item of news
+        ) {
+
+            item.url =
+                await resolveNewsUrl(
+                    item.url
+                );
+        }
+
         result.eu = {
 
             success: true,
 
-            news:
-                parseNewsRss(
-                    xml,
-                    "EU"
-                ),
+            count:
+                news.length,
+
+            news,
 
             officialUrl:
                 "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
@@ -1666,11 +1595,8 @@ app.get(
 
             if (
                 cached &&
-                now -
-                    cached.time <
-                    10 *
-                    60 *
-                    1000
+                now - cached.time <
+                    10 * 60 * 1000
             ) {
 
                 return res.json(
@@ -1701,7 +1627,6 @@ app.get(
                 {
                     time:
                         now,
-
                     data
                 }
             );
@@ -1722,9 +1647,7 @@ app.get(
                 error
             );
 
-            res.status(
-                502
-            ).json({
+            res.status(502).json({
 
                 success:
                     false,
@@ -1735,6 +1658,12 @@ app.get(
         }
     }
 );
+
+
+/* =========================================================
+   START SERVER
+========================================================= */
+
 app.listen(
     PORT,
     () => {
@@ -1742,6 +1671,5 @@ app.listen(
         console.log(
             `FinAP server running on http://localhost:${PORT}`
         );
-
     }
 );
