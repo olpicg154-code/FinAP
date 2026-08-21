@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uk">
 
 <head>
@@ -26,19 +26,20 @@
         }
 
         #map {
-            position: absolute;
+            position: fixed;
             inset: 0;
         }
 
         .toolbar {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            z-index: 2000;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            z-index: 5000;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            gap: 10px;
             pointer-events: none;
         }
 
@@ -46,30 +47,29 @@
         .toolbar-right {
             display: flex;
             gap: 8px;
-            pointer-events: auto;
             flex-wrap: wrap;
+            pointer-events: auto;
         }
 
         .btn {
             min-height: 42px;
-            padding: 0 15px;
+            padding: 0 14px;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,.12);
-            background: rgba(7,17,31,.93);
-            color: #fff;
+            border: 1px solid rgba(255,255,255,.13);
+            background: rgba(7,17,31,.94);
+            color: white;
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            box-shadow: 0 8px 24px rgba(0,0,0,.30);
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
             transition: .2s ease;
         }
 
         .btn:hover {
             transform: translateY(-1px);
-            border-color: rgba(255,255,255,.25);
+            border-color: rgba(255,255,255,.28);
         }
 
         .location-btn {
@@ -87,22 +87,34 @@
             border-color: rgba(234,179,8,.4);
         }
 
+        .court-btn {
+            color: #fca5a5;
+            border-color: rgba(239,68,68,.4);
+        }
+
+        .cnap-btn {
+            color: #c4b5fd;
+            border-color: rgba(139,92,246,.4);
+        }
+
         .panel {
             position: fixed;
-            top: 78px;
-            right: 20px;
-            z-index: 2100;
-            width: 350px;
-            max-width: calc(100vw - 40px);
-            max-height: calc(100vh - 110px);
-            overflow: hidden;
+            top: 76px;
+            right: 18px;
+            z-index: 5100;
+            width: 370px;
+            max-width: calc(100vw - 36px);
+            max-height: calc(100vh - 105px);
             display: none;
             flex-direction: column;
+            overflow: hidden;
+
             border: 1px solid rgba(255,255,255,.12);
             border-radius: 16px;
-            background: rgba(7,17,31,.95);
+
+            background: rgba(7,17,31,.96);
             backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+
             box-shadow: 0 18px 50px rgba(0,0,0,.45);
         }
 
@@ -117,7 +129,7 @@
 
         .panel-title {
             margin: 0 0 10px;
-            color: #fff;
+            color: white;
             font-size: 17px;
         }
 
@@ -125,38 +137,45 @@
             width: 100%;
             height: 40px;
             padding: 0 12px;
+
             border-radius: 10px;
             border: 1px solid rgba(255,255,255,.12);
+
             outline: none;
+
             background: rgba(255,255,255,.06);
-            color: #fff;
-            font-size: 13px;
+            color: white;
         }
 
         .search::placeholder {
             color: rgba(255,255,255,.45);
         }
 
-        .item-list {
-            overflow-y: auto;
+        .list {
             padding: 8px;
+            overflow-y: auto;
         }
 
         .item {
             width: 100%;
             padding: 12px;
             margin-bottom: 6px;
+
             text-align: left;
+
             border: 1px solid transparent;
             border-radius: 10px;
+
             background: rgba(255,255,255,.04);
-            color: #fff;
+            color: white;
+
             cursor: pointer;
+            transition: .2s ease;
         }
 
         .item:hover {
-            border-color: rgba(255,255,255,.20);
             background: rgba(255,255,255,.08);
+            border-color: rgba(255,255,255,.2);
         }
 
         .item-name {
@@ -167,103 +186,144 @@
 
         .item-address {
             display: block;
-            margin-top: 4px;
-            color: rgba(255,255,255,.52);
+            margin-top: 5px;
+
+            color: rgba(255,255,255,.56);
+
             font-size: 11px;
+            line-height: 1.4;
         }
 
-        .item-source {
+        .verified {
             display: inline-block;
             margin-top: 7px;
             padding: 3px 6px;
+
             border-radius: 5px;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: .4px;
+
             color: #f6d56f;
             background: rgba(234,179,8,.08);
-            border: 1px solid rgba(234,179,8,.18);
+
+            border: 1px solid rgba(234,179,8,.2);
+
+            font-size: 9px;
         }
 
         .status {
             position: fixed;
             left: 50%;
-            bottom: 24px;
+            bottom: 22px;
+
             transform: translateX(-50%);
-            z-index: 3000;
-            width: min(92vw, 650px);
+
+            z-index: 5200;
+
+            width: min(92vw, 720px);
+
             padding: 13px 16px;
+
             border-radius: 12px;
-            background: rgba(7,17,31,.95);
-            border: 1px solid rgba(255,255,255,.10);
+
+            background: rgba(7,17,31,.96);
+
+            border: 1px solid rgba(255,255,255,.1);
+
             color: #e5e7eb;
+
             text-align: center;
+
             font-size: 13px;
             line-height: 1.4;
+
             box-shadow: 0 10px 30px rgba(0,0,0,.35);
+
             backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
         }
 
         .status.hidden {
             display: none;
         }
 
-        .user-marker {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #10b981;
-            border: 3px solid #fff;
-            box-shadow:
-                0 0 0 8px rgba(16,185,129,.18),
-                0 0 22px rgba(16,185,129,.70);
-        }
-
+        .user-marker,
         .bank-marker,
-        .exchange-marker {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        .exchange-marker,
+        .court-marker,
+        .cnap-marker {
             display: flex;
             align-items: center;
             justify-content: center;
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 50%;
+
             background: #0b1e32;
-            font-size: 14px;
+
             font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-marker {
+            width: 18px;
+            height: 18px;
+
+            background: #10b981;
+
+            border: 3px solid white;
+
+            box-shadow:
+                0 0 0 8px rgba(16,185,129,.18),
+                0 0 22px rgba(16,185,129,.7);
         }
 
         .bank-marker {
             color: #8fd8ff;
+
             border: 2px solid #38bdf8;
-            box-shadow: 0 0 14px rgba(56,189,248,.50);
+
+            box-shadow:
+                0 0 14px rgba(56,189,248,.5);
         }
 
         .exchange-marker {
             color: #f6d56f;
+
             border: 2px solid #eab308;
-            box-shadow: 0 0 14px rgba(234,179,8,.45);
+
+            box-shadow:
+                0 0 14px rgba(234,179,8,.45);
         }
 
-        .verified-marker {
-            color: #ffffff;
-            border-color: #f6d56f;
+        .court-marker {
+            color: #fca5a5;
+
+            border: 2px solid #ef4444;
+
+            box-shadow:
+                0 0 14px rgba(239,68,68,.45);
         }
 
-        .leaflet-popup-content {
-            min-width: 210px;
+        .cnap-marker {
+            color: #c4b5fd;
+
+            border: 2px solid #8b5cf6;
+
+            box-shadow:
+                0 0 14px rgba(139,92,246,.45);
         }
 
         .popup-title {
             font-size: 14px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .popup-address {
             color: #555;
             font-size: 12px;
-            margin-bottom: 9px;
+            line-height: 1.4;
+            margin-bottom: 8px;
         }
 
         .popup-source {
@@ -272,50 +332,51 @@
             margin-bottom: 9px;
         }
 
-        .route-btn {
+        .route {
             display: inline-block;
+
             padding: 7px 10px;
+
             border-radius: 7px;
+
             background: #07111f;
-            color: #fff;
+            color: white;
+
             text-decoration: none;
+
             font-size: 11px;
             font-weight: 600;
         }
 
-        @media (max-width: 850px) {
+        @media (max-width: 1050px) {
+
             .toolbar {
                 flex-direction: column;
-                gap: 8px;
-            }
-
-            .toolbar-right {
-                max-width: 100%;
             }
 
             .panel {
-                top: 124px;
+                top: 125px;
             }
         }
 
         @media (max-width: 650px) {
+
             .toolbar {
-                top: 12px;
-                left: 12px;
-                right: 12px;
+                top: 10px;
+                left: 10px;
+                right: 10px;
             }
 
             .btn {
                 min-height: 38px;
-                padding: 0 11px;
+                padding: 0 10px;
                 font-size: 11px;
             }
 
             .panel {
-                top: 118px;
-                right: 12px;
-                width: calc(100vw - 24px);
-                max-width: none;
+                top: 115px;
+                right: 10px;
+                width: calc(100vw - 20px);
             }
         }
     </style>
@@ -326,885 +387,936 @@
     <div class="toolbar">
 
         <div class="toolbar-left">
-            <a href="index.html" class="btn">
+            <a href="index.html"
+               class="btn">
                 ← На головну
             </a>
         </div>
 
         <div class="toolbar-right">
 
-            <button id="locationButton"
-                    class="btn location-btn"
-                    type="button">
+            <button
+                id="locationButton"
+                class="btn location-btn">
                 📍 Моя локація
             </button>
 
-            <button id="banksButton"
-                    class="btn bank-btn"
-                    type="button">
+            <button
+                id="bankButton"
+                class="btn bank-btn">
                 🏦 Банки
             </button>
 
-            <button id="exchangeButton"
-                    class="btn exchange-btn"
-                    type="button">
+            <button
+                id="exchangeButton"
+                class="btn exchange-btn">
                 💱 Обмінники
             </button>
 
+            <button
+                id="courtButton"
+                class="btn court-btn">
+                ⚖️ Суди
+            </button>
+
+            <button
+                id="cnapButton"
+                class="btn cnap-btn">
+                🏛 ЦНАП
+            </button>
+
+        </div>
+    </div>
+
+    <div
+        id="bankPanel"
+        class="panel">
+
+        <div class="panel-header">
+
+            <h2
+                id="bankTitle"
+                class="panel-title">
+                Банки Рівного
+            </h2>
+
+            <input
+                id="bankSearch"
+                class="search"
+                placeholder="Пошук банку..."
+            >
+
+        </div>
+
+        <div
+            id="bankList"
+            class="list">
         </div>
 
     </div>
 
-    <div id="bankPanel" class="panel">
+    <div
+        id="exchangePanel"
+        class="panel">
 
         <div class="panel-header">
-            <h2 class="panel-title">Банки Рівного</h2>
 
-            <input id="bankSearch"
-                   class="search"
-                   type="text"
-                   placeholder="Пошук банку..."
-                   autocomplete="off">
+            <h2
+                id="exchangeTitle"
+                class="panel-title">
+                Обмінники Рівного
+            </h2>
+
+            <input
+                id="exchangeSearch"
+                class="search"
+                placeholder="Пошук обмінника..."
+            >
+
         </div>
 
-        <div id="bankList" class="item-list"></div>
+        <div
+            id="exchangeList"
+            class="list">
+        </div>
 
     </div>
 
-    <div id="exchangePanel" class="panel">
+    <div
+        id="courtPanel"
+        class="panel">
 
         <div class="panel-header">
-            <h2 class="panel-title">Обмінники Рівного</h2>
 
-            <input id="exchangeSearch"
-                   class="search"
-                   type="text"
-                   placeholder="Пошук обмінника..."
-                   autocomplete="off">
+            <h2
+                id="courtTitle"
+                class="panel-title">
+                Суди Рівного
+            </h2>
+
+            <input
+                id="courtSearch"
+                class="search"
+                placeholder="Пошук суду..."
+            >
+
         </div>
 
-        <div id="exchangeList" class="item-list"></div>
+        <div
+            id="courtList"
+            class="list">
+        </div>
+
+    </div>
+
+    <div
+        id="cnapPanel"
+        class="panel">
+
+        <div class="panel-header">
+
+            <h2
+                id="cnapTitle"
+                class="panel-title">
+                ЦНАП Рівного
+            </h2>
+
+            <input
+                id="cnapSearch"
+                class="search"
+                placeholder="Пошук ЦНАП..."
+            >
+
+        </div>
+
+        <div
+            id="cnapList"
+            class="list">
+        </div>
 
     </div>
 
     <div id="map"></div>
 
-    <div id="status" class="status">
-        Карта Рівного готова.
+    <div
+        id="status"
+        class="status hidden">
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
 
-        const RIVNE = [50.6199, 26.2516];
+        /*
+         * =====================================================
+         * КАРТА
+         * =====================================================
+         */
 
-        const map = L.map("map").setView(RIVNE, 13);
+        const RIVNE = [
+            50.6199,
+            26.2516
+        ];
+
+        const map =
+            L.map("map")
+             .setView(
+                 RIVNE,
+                 13
+             );
 
         L.tileLayer(
             "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 19,
-                attribution: "&copy; OpenStreetMap contributors"
+                attribution:
+                    "&copy; OpenStreetMap contributors"
             }
         ).addTo(map);
 
-        let userMarker = null;
-        let accuracyCircle = null;
+        /*
+         * =====================================================
+         * СТАН
+         * =====================================================
+         */
+
+        let activeCategory = null;
+        let operationId = 0;
+
+        let bankMarkers = [];
+        let exchangeMarkers = [];
+        let courtMarkers = [];
+        let cnapMarkers = [];
 
         let bankData = [];
         let exchangeData = [];
 
-        let bankMarkers = [];
-        let exchangeMarkers = [];
+        let userMarker = null;
+        let accuracyCircle = null;
 
-        const status =
-            document.getElementById("status");
+        /*
+         * =====================================================
+         * LION
+         * =====================================================
+         */
 
-        const bankPanel =
-            document.getElementById("bankPanel");
+        const LION = [
 
-        const exchangePanel =
-            document.getElementById("exchangePanel");
+            {
+                name: "LION KURS",
+                address:
+                    "Рівне, вул. Кулика і Гудачека, 23",
+                lat: 50.625864,
+                lon: 26.200237,
+                source: "LION"
+            },
 
-        const bankList =
-            document.getElementById("bankList");
+            {
+                name: "LION KURS",
+                address:
+                    "Рівне, вул. Соборна, 17",
+                lat: 50.618590,
+                lon: 26.252720,
+                source: "LION"
+            },
 
-        const exchangeList =
-            document.getElementById("exchangeList");
+            {
+                name: "LION KURS",
+                address:
+                    "Рівне, вул. Василя Червонія, 16",
+                lat: 50.629400,
+                lon: 26.272404,
+                source: "LION"
+            },
 
-        const bankSearch =
-            document.getElementById("bankSearch");
+            {
+                name: "LION KURS",
+                address:
+                    "Рівне, вул. Чорновола, 98а",
+                lat: 50.595306,
+                lon: 26.257934,
+                source: "LION"
+            },
 
-        const exchangeSearch =
-            document.getElementById("exchangeSearch");
+            {
+                name: "LION KURS",
+                address:
+                    "Рівне, вул. Княгині Ольги, 1",
+                lat: 50.616909,
+                lon: 26.265080,
+                source: "LION"
+            }
 
-        function showStatus(text) {
-            status.textContent = text;
-            status.classList.remove("hidden");
+        ];
+
+        /*
+         * =====================================================
+         * СУДИ
+         * =====================================================
+         */
+
+        const COURTS = [
+
+            {
+                name:
+                    "Рівненський міський суд Рівненської області",
+
+                address:
+                    "Рівне, вул. Шкільна, 1",
+
+                lat: 50.620080,
+                lon: 26.251170
+            },
+
+            {
+                name:
+                    "Рівненський районний суд",
+
+                address:
+                    "Рівне, вул. Петра Могили, 22-Б",
+
+                lat: 50.619400,
+                lon: 26.227440
+            },
+
+            {
+                name:
+                    "Рівненський окружний адміністративний суд",
+
+                address:
+                    "Рівне, вул. 16 Липня, 87",
+
+                lat: 50.615900,
+                lon: 26.245400
+            },
+
+            {
+                name:
+                    "Рівненський апеляційний суд",
+
+                address:
+                    "Рівне, вул. Михайла Драгоманова, 9",
+
+                lat: 50.615282,
+                lon: 26.251485
+            },
+
+            {
+                name:
+                    "Північно-західний апеляційний господарський суд",
+
+                address:
+                    "Рівне, вул. Яворницького, 59",
+
+                lat: 50.612700,
+                lon: 26.256300
+            },
+
+            {
+                name:
+                    "Господарський суд Рівненської області",
+
+                address:
+                    "Рівне, вул. Набережна, 26-А",
+
+                lat: 50.616100,
+                lon: 26.236700
+            }
+
+        ];
+
+        /*
+         * =====================================================
+         * ЦНАП
+         * =====================================================
+         */
+
+        const CNAP = [
+
+            {
+                name:
+                    "ЦНАП у місті Рівному",
+
+                address:
+                    "Рівне, майдан Просвіти, 2",
+
+                lat: 50.626160,
+                lon: 26.252990
+            },
+
+            {
+                name:
+                    "ЦНАП — ТРЦ «ХЕППІ МОЛЛ»",
+
+                address:
+                    "Рівне, вул. Сергія Бачинського, 5",
+
+                lat: 50.625700,
+                lon: 26.188700
+            },
+
+            {
+                name:
+                    "ЦНАП — «Ювілейний»",
+
+                address:
+                    "Рівне, вул. Кулика і Гудачека, 3",
+
+                lat: 50.634750,
+                lon: 26.198590
+            },
+
+            {
+                name:
+                    "ЦНАП — Бізнес-коворкінг",
+
+                address:
+                    "Рівне, вул. Поштова, 2",
+
+                lat: 50.620500,
+                lon: 26.250800
+            },
+
+            {
+                name:
+                    "ЦНАП — віддалене робоче місце",
+
+                address:
+                    "Рівне, вул. Медична, 7",
+
+                lat: 50.611800,
+                lon: 26.253800
+            },
+
+            {
+                name:
+                    "ЦНАП — Квасилів",
+
+                address:
+                    "Квасилів, вул. Рівненська, 1",
+
+                lat: 50.556700,
+                lon: 26.264600
+            }
+
+        ];
+
+        /*
+         * =====================================================
+         * ПАНЕЛІ
+         * =====================================================
+         */
+
+        const panels = {
+            bank:
+                document.getElementById(
+                    "bankPanel"
+                ),
+
+            exchange:
+                document.getElementById(
+                    "exchangePanel"
+                ),
+
+            court:
+                document.getElementById(
+                    "courtPanel"
+                ),
+
+            cnap:
+                document.getElementById(
+                    "cnapPanel"
+                )
+        };
+
+        const lists = {
+            bank:
+                document.getElementById(
+                    "bankList"
+                ),
+
+            exchange:
+                document.getElementById(
+                    "exchangeList"
+                ),
+
+            court:
+                document.getElementById(
+                    "courtList"
+                ),
+
+            cnap:
+                document.getElementById(
+                    "cnapList"
+                )
+        };
+
+        /*
+         * =====================================================
+         * ФУНКЦІЇ
+         * =====================================================
+         */
+
+        function status(text) {
+
+            const box =
+                document.getElementById(
+                    "status"
+                );
+
+            box.textContent =
+                text;
+
+            box.classList.remove(
+                "hidden"
+            );
         }
 
         function hideStatus() {
-            status.classList.add("hidden");
+
+            document
+                .getElementById(
+                    "status"
+                )
+                .classList.add(
+                    "hidden"
+                );
         }
 
         function escapeHtml(value) {
+
             return String(value)
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
         }
 
-        function normalizeName(name) {
-            return name
-                .toLowerCase()
-                .replace(
-                    /акціонерне товариство|публічне акціонерне товариство|товариство з обмеженою відповідальністю|ат|тзов|тов/g,
-                    ""
+        function route(
+            lat,
+            lon
+        ) {
+
+            return (
+                "https://www.google.com/maps/dir/?api=1&destination=" +
+                encodeURIComponent(
+                    lat +
+                    "," +
+                    lon
                 )
-                .replace(
-                    /[^а-яіїєґa-z0-9]+/gi,
-                    " "
+            );
+        }
+
+        function closePanels() {
+
+            Object
+                .values(
+                    panels
                 )
-                .trim();
+                .forEach(
+                    p =>
+                        p.classList.remove(
+                            "open"
+                        )
+                );
+        }
+
+        function clearMarkers() {
+
+            bankMarkers.forEach(
+                m =>
+                    map.removeLayer(
+                        m
+                    )
+            );
+
+            exchangeMarkers.forEach(
+                m =>
+                    map.removeLayer(
+                        m
+                    )
+            );
+
+            courtMarkers.forEach(
+                m =>
+                    map.removeLayer(
+                        m
+                    )
+            );
+
+            cnapMarkers.forEach(
+                m =>
+                    map.removeLayer(
+                        m
+                    )
+            );
+
+            bankMarkers = [];
+            exchangeMarkers = [];
+            courtMarkers = [];
+            cnapMarkers = [];
         }
 
         function userIcon() {
 
             return L.divIcon({
+
                 className: "",
+
                 html:
                     '<div class="user-marker"></div>',
-                iconSize: [18, 18],
-                iconAnchor: [9, 9]
+
+                iconSize:
+                    [18,18],
+
+                iconAnchor:
+                    [9,9]
             });
         }
 
         function bankIcon() {
 
             return L.divIcon({
+
                 className: "",
+
                 html:
                     '<div class="bank-marker">₴</div>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
+
+                iconSize:
+                    [30,30],
+
+                iconAnchor:
+                    [15,15]
             });
         }
 
-        function exchangeIcon(verified = false) {
+        function exchangeIcon() {
 
             return L.divIcon({
+
                 className: "",
+
                 html:
-                    '<div class="exchange-marker' +
-                    (verified ? " verified-marker" : "") +
-                    '">₴</div>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
+                    '<div class="exchange-marker">₴</div>',
+
+                iconSize:
+                    [30,30],
+
+                iconAnchor:
+                    [15,15]
             });
         }
 
-        function routeUrl(lat, lon) {
+        function courtIcon() {
 
-            return (
-                "https://www.google.com/maps/dir/?api=1&destination=" +
-                encodeURIComponent(lat + "," + lon)
-            );
+            return L.divIcon({
+
+                className: "",
+
+                html:
+                    '<div class="court-marker">⚖</div>',
+
+                iconSize:
+                    [30,30],
+
+                iconAnchor:
+                    [15,15]
+            });
         }
 
-        function popupHtml(place) {
+        function cnapIcon() {
 
-            const address =
-                place.address
-                    ? `<div class="popup-address">${escapeHtml(place.address)}</div>`
-                    : "";
+            return L.divIcon({
+
+                className: "",
+
+                html:
+                    '<div class="cnap-marker">🏛</div>',
+
+                iconSize:
+                    [30,30],
+
+                iconAnchor:
+                    [15,15]
+            });
+        }
+
+        function popup(
+            marker,
+            place
+        ) {
 
             const source =
                 place.source
-                    ? `<div class="popup-source">Джерело: ${escapeHtml(place.source)}</div>`
+                    ? `
+                        <div class="popup-source">
+                            Джерело:
+                            ${escapeHtml(
+                                place.source
+                            )}
+                        </div>
+                      `
                     : "";
 
-            return `
+            marker.bindPopup(`
+
                 <div class="popup-title">
-                    ${escapeHtml(place.name)}
+                    ${escapeHtml(
+                        place.name
+                    )}
                 </div>
 
-                ${address}
+                <div class="popup-address">
+                    ${escapeHtml(
+                        place.address ||
+                        "Адреса не вказана в даних карти"
+                    )}
+                </div>
 
                 ${source}
 
                 <a
-                    class="route-btn"
-                    href="${routeUrl(place.lat, place.lon)}"
+                    class="route"
+                    href="${route(
+                        place.lat,
+                        place.lon
+                    )}"
                     target="_blank"
                     rel="noopener"
                 >
                     Маршрут →
                 </a>
-            `;
+
+            `);
         }
 
         /*
-         * МОЯ ЛОКАЦІЯ
+         * =====================================================
+         * OVERPASS
+         * =====================================================
          */
 
-        document
-            .getElementById("locationButton")
-            .addEventListener("click", () => {
+        async function overpass(
+            query
+        ) {
 
-                if (!navigator.geolocation) {
+            let lastError =
+                null;
 
-                    showStatus(
-                        "Ваш браузер не підтримує геолокацію."
-                    );
+            for (
+                const endpoint of
+                [
+                    "https://overpass-api.de/api/interpreter",
+                    "https://overpass.kumi.systems/api/interpreter",
+                    "https://overpass.private.coffee/api/interpreter"
+                ]
+            ) {
 
-                    return;
+                try {
+
+                    const response =
+                        await fetch(
+                            endpoint,
+                            {
+                                method:
+                                    "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded"
+                                },
+
+                                body:
+                                    "data=" +
+                                    encodeURIComponent(
+                                        query
+                                    )
+                            }
+                        );
+
+                    if (
+                        response.ok
+                    ) {
+
+                        return await response.json();
+                    }
+
+                    lastError =
+                        new Error(
+                            "HTTP " +
+                            response.status
+                        );
+
+                } catch (
+                    error
+                ) {
+
+                    lastError =
+                        error;
                 }
+            }
 
-                showStatus(
-                    "Визначаю вашу локацію..."
-                );
+            throw (
+                lastError ||
+                new Error(
+                    "Overpass unavailable"
+                )
+            );
+        }
 
-                navigator.geolocation.getCurrentPosition(
+        function osmPlaces(
+            elements,
+            fallback
+        ) {
 
-                    position => {
+            return elements
+                .map(
+                    el => {
 
                         const lat =
-                            position.coords.latitude;
+                            el.lat ??
+                            el.center?.lat;
 
                         const lon =
-                            position.coords.longitude;
+                            el.lon ??
+                            el.center?.lon;
 
-                        const accuracy =
-                            position.coords.accuracy;
+                        const tags =
+                            el.tags ||
+                            {};
 
-                        map.setView(
-                            [lat, lon],
-                            16
-                        );
+                        if (
+                            typeof lat !==
+                                "number" ||
+                            typeof lon !==
+                                "number"
+                        ) {
 
-                        if (userMarker) {
-                            map.removeLayer(
-                                userMarker
-                            );
+                            return null;
                         }
 
-                        if (accuracyCircle) {
-                            map.removeLayer(
-                                accuracyCircle
-                            );
-                        }
+                        return {
 
-                        userMarker =
-                            L.marker(
-                                [lat, lon],
-                                {
-                                    icon: userIcon()
-                                }
-                            )
-                            .addTo(map)
-                            .bindPopup("📍 Ви тут")
-                            .openPopup();
+                            name:
+                                tags.name ||
+                                tags.brand ||
+                                tags.operator ||
+                                fallback,
 
-                        accuracyCircle =
-                            L.circle(
-                                [lat, lon],
-                                {
-                                    radius: accuracy,
-                                    color: "#10b981",
-                                    fillColor: "#10b981",
-                                    fillOpacity: 0.08,
-                                    weight: 1
-                                }
-                            )
-                            .addTo(map);
+                            address:
+                                [
+                                    tags["addr:street"],
+                                    tags["addr:housenumber"]
+                                ]
+                                .filter(
+                                    Boolean
+                                )
+                                .join(
+                                    ", "
+                                ),
 
-                        showStatus(
-                            "Локацію визначено. " +
-                            "Точність приблизно " +
-                            Math.round(accuracy) +
-                            " м."
-                        );
+                            lat,
+                            lon,
 
-                        setTimeout(
-                            hideStatus,
-                            5000
-                        );
-                    },
-
-                    error => {
-
-                        if (error.code === 1) {
-                            showStatus(
-                                "Доступ до геолокації заборонено."
-                            );
-                        } else if (error.code === 2) {
-                            showStatus(
-                                "Не вдалося визначити координати."
-                            );
-                        } else if (error.code === 3) {
-                            showStatus(
-                                "Час очікування геолокації вичерпано."
-                            );
-                        }
-                    },
-
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 30000,
-                        maximumAge: 0
+                            source:
+                                "OpenStreetMap"
+                        };
                     }
+                )
+                .filter(
+                    Boolean
                 );
-            });
-
-        /*
-         * OVERPASS
-         */
-
-        async function overpassRequest(query) {
-
-            const url =
-                "https://overpass-api.de/api/interpreter?data=" +
-                encodeURIComponent(query);
-
-            const response =
-                await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(
-                    "Overpass HTTP " +
-                    response.status
-                );
-            }
-
-            return await response.json();
         }
 
         /*
-         * ПЕРЕТВОРЕННЯ OSM
+         * =====================================================
+         * БАНКИ
+         * =====================================================
          */
 
-        function parseOSM(elements, defaultName) {
+        async function showBanks() {
 
-            const places = [];
+            activeCategory =
+                "bank";
 
-            elements.forEach(element => {
+            const current =
+                ++operationId;
 
-                const lat =
-                    element.lat ??
-                    element.center?.lat;
+            clearMarkers();
+            closePanels();
 
-                const lon =
-                    element.lon ??
-                    element.center?.lon;
+            panels.bank.classList.add(
+                "open"
+            );
 
-                const tags =
-                    element.tags || {};
+            lists.bank.innerHTML =
+                `
+                    <div style="padding:15px;color:#aaa">
+                        Завантаження банків...
+                    </div>
+                `;
 
-                const name =
-                    tags.name ||
-                    tags.brand ||
-                    tags.operator ||
-                    defaultName;
+            status(
+                "Завантажую банки Рівного..."
+            );
 
-                const street =
-                    tags["addr:street"] || "";
+            const query = `
 
-                const house =
-                    tags["addr:housenumber"] || "";
+                [out:json][timeout:30];
 
-                const address =
-                    [street, house]
-                        .filter(Boolean)
-                        .join(", ");
+                (
+                    node["amenity"="bank"]
+                    (50.57,26.15,50.68,26.38);
+
+                    way["amenity"="bank"]
+                    (50.57,26.15,50.68,26.38);
+
+                    relation["amenity"="bank"]
+                    (50.57,26.15,50.68,26.38);
+                );
+
+                out center tags;
+            `;
+
+            try {
+
+                const data =
+                    await overpass(
+                        query
+                    );
 
                 if (
-                    typeof lat !== "number" ||
-                    typeof lon !== "number"
+                    current !==
+                        operationId
                 ) {
+
                     return;
                 }
 
-                places.push({
-                    id: element.id,
-                    lat,
-                    lon,
-                    name,
-                    address,
-                    source: "OpenStreetMap"
-                });
-            });
-
-            const unique = new Map();
-
-            places.forEach(place => {
-
-                const key =
-                    normalizeName(place.name) +
-                    "|" +
-                    place.lat.toFixed(5) +
-                    "|" +
-                    place.lon.toFixed(5);
-
-                unique.set(
-                    key,
-                    place
-                );
-            });
-
-            return Array.from(
-                unique.values()
-            );
-        }
-
-        /*
-         * ПЕРЕВІРЕНІ LION
-         *
-         * Адреси взяті з актуальних
-         * публічних повідомлень LION.
-         */
-
-        const VERIFIED_LION = [
-
-            {
-                name: "LION KURS — ТРЦ Екватор",
-                address:
-                    "м. Рівне, вул. Кулика і Гудачека, 23",
-                lat: 50.625864,
-                lon: 26.200237,
-                source: "LION Telegram"
-            },
-
-            {
-                name: "LION KURS — ЦУМ",
-                address:
-                    "м. Рівне, вул. Соборна, 17",
-                lat: 50.618590,
-                lon: 26.252720,
-                source: "LION Telegram"
-            },
-
-            {
-                name: "LION KURS — ТРЦ Чайка",
-                address:
-                    "м. Рівне, вул. Василя Червонія, 16",
-                lat: 50.629400,
-                lon: 26.272404,
-                source: "LION Telegram"
-            },
-
-            {
-                name: "LION KURS — Щасливе",
-                address:
-                    "м. Рівне, вул. Чорновола, 98а",
-                lat: 50.595306,
-                lon: 26.257934,
-                source: "LION Telegram"
-            },
-
-            {
-                name: "LION KURS — Покровський",
-                address:
-                    "м. Рівне, вул. Княгині Ольги, 1",
-                lat: 50.616909,
-                lon: 26.265080,
-                source: "LION Telegram"
-            }
-        ];
-
-        /*
-         * БАНКИ
-         */
-
-        async function loadBanks() {
-
-            showStatus(
-                "Завантажую реальні банки Рівного..."
-            );
-
-            const query = `
-                [out:json][timeout:25];
-                (
-                    node["amenity"="bank"](50.57,26.15,50.68,26.38);
-                    way["amenity"="bank"](50.57,26.15,50.68,26.38);
-                    relation["amenity"="bank"](50.57,26.15,50.68,26.38);
-                );
-                out center tags;
-            `;
-
-            try {
-
-                const data =
-                    await overpassRequest(query);
-
                 bankData =
-                    parseOSM(
+                    osmPlaces(
                         data.elements,
-                        "Банк без назви"
+                        "Банк"
                     );
 
-                renderList(
-                    bankList,
-                    bankData,
-                    false
-                );
-
-                showAllBanks();
-
-                showStatus(
-                    "Знайдено банків: " +
-                    bankData.length
-                );
-
-                setTimeout(
-                    hideStatus,
-                    4000
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Banks error:",
-                    error
-                );
-
-                showStatus(
-                    "Не вдалося завантажити банки."
-                );
-            }
-        }
-
-        /*
-         * ОБМІННИКИ:
-         *
-         * OSM + LION
-         */
-
-        async function loadExchanges() {
-
-            showStatus(
-                "Завантажую обмінники Рівного..."
-            );
-
-            const query = `
-                [out:json][timeout:25];
-                (
-                    node["amenity"="bureau_de_change"](50.57,26.15,50.68,26.38);
-                    way["amenity"="bureau_de_change"](50.57,26.15,50.68,26.38);
-                    relation["amenity"="bureau_de_change"](50.57,26.15,50.68,26.38);
-                );
-                out center tags;
-            `;
-
-            try {
-
-                const data =
-                    await overpassRequest(query);
-
-                const osmExchanges =
-                    parseOSM(
-                        data.elements,
-                        "Обмінник без назви"
-                    );
-
-                /*
-                 * Об'єднуємо OSM + LION.
-                 */
-                exchangeData =
-                    [
-                        ...VERIFIED_LION,
-                        ...osmExchanges
-                    ];
-
-                renderList(
-                    exchangeList,
-                    exchangeData,
-                    true
-                );
-
-                showAllExchanges();
-
-                showStatus(
-                    "Знайдено обмінників: " +
-                    exchangeData.length +
-                    " — включно з перевіреними точками LION."
-                );
-
-                setTimeout(
-                    hideStatus,
-                    5000
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Exchange error:",
-                    error
-                );
-
-                /*
-                 * Навіть якщо OSM тимчасово
-                 * недоступний, LION все одно
-                 * показується.
-                 */
-
-                exchangeData =
-                    [...VERIFIED_LION];
-
-                renderList(
-                    exchangeList,
-                    exchangeData,
-                    true
-                );
-
-                showAllExchanges();
-
-                showStatus(
-                    "OSM тимчасово недоступний. " +
-                    "Показано перевірені точки LION."
-                );
-            }
-        }
-
-        /*
-         * ПОКАЗ БАНКІВ
-         */
-
-        function showAllBanks() {
-
-            clearBankMarkers();
-
-            bankData.forEach(bank => {
-
-                const marker =
-                    L.marker(
-                        [bank.lat, bank.lon],
-                        {
-                            icon: bankIcon()
-                        }
-                    )
-                    .addTo(map);
-
-                marker.bindPopup(
-                    popupHtml(bank)
-                );
-
-                bankMarkers.push(marker);
-            });
-        }
-
-        /*
-         * ПОКАЗ ОБМІННИКІВ
-         */
-
-        function showAllExchanges() {
-
-            clearExchangeMarkers();
-
-            exchangeData.forEach(exchange => {
-
-                const verified =
-                    exchange.source ===
-                    "LION Telegram";
-
-                const marker =
-                    L.marker(
-                        [exchange.lat, exchange.lon],
-                        {
-                            icon:
-                                exchangeIcon(
-                                    verified
-                                )
-                        }
-                    )
-                    .addTo(map);
-
-                marker.bindPopup(
-                    popupHtml(exchange)
-                );
-
-                exchangeMarkers.push(marker);
-            });
-        }
-
-        /*
-         * ПОКАЗ ОБРАНОЇ МЕРЕЖІ
-         */
-
-        function showNetwork(
-            place,
-            type
-        ) {
-
-            let data =
-                type === "bank"
-                    ? bankData
-                    : exchangeData;
-
-            let normalized =
-                normalizeName(
-                    place.name
-                );
-
-            /*
-             * Для LION усі точки
-             * починаються з LION KURS.
-             */
-            let same = [];
-
-            if (
-                place.source === "LION Telegram"
-            ) {
-
-                same =
-                    exchangeData.filter(
-                        item =>
-                            item.source ===
-                            "LION Telegram"
-                    );
-
-            } else {
-
-                same =
-                    data.filter(
-                        item =>
-                            normalizeName(
-                                item.name
-                            ) === normalized
-                    );
-            }
-
-            if (!same.length) {
-                return;
-            }
-
-            if (type === "bank") {
-                clearBankMarkers();
-            } else {
-                clearExchangeMarkers();
-            }
-
-            const markers = [];
-
-            same.forEach(item => {
-
-                const verified =
-                    item.source ===
-                    "LION Telegram";
-
-                const marker =
-                    L.marker(
-                        [item.lat, item.lon],
-                        {
-                            icon:
-                                type === "bank"
-                                    ? bankIcon()
-                                    : exchangeIcon(
-                                        verified
-                                    )
-                        }
-                    )
-                    .addTo(map);
-
-                marker.bindPopup(
-                    popupHtml(item)
-                );
-
-                markers.push(marker);
-            });
-
-            if (
-                type === "bank"
-            ) {
-                bankMarkers = markers;
-            } else {
-                exchangeMarkers = markers;
-            }
-
-            const bounds =
-                L.latLngBounds(
-                    same.map(
-                        item =>
-                            [
-                                item.lat,
-                                item.lon
-                            ]
-                    )
-                );
-
-            if (same.length === 1) {
-
-                map.setView(
-                    [
-                        same[0].lat,
-                        same[0].lon
-                    ],
-                    16
-                );
-
-            } else {
-
-                map.fitBounds(
-                    bounds,
-                    {
-                        padding: [70,70],
-                        maxZoom: 16
-                    }
-                );
-            }
-        }
-
-        /*
-         * СПИСОК
-         */
-
-        function renderList(
-            container,
-            data,
-            isExchange
-        ) {
-
-            container.innerHTML = "";
-
-            const groups = new Map();
-
-            data.forEach(place => {
-
-                const groupKey =
-                    place.source ===
-                    "LION Telegram"
-                        ? "lion_kurs"
-                        : normalizeName(
-                            place.name
-                        );
-
-                if (!groups.has(groupKey)) {
-
-                    groups.set(
-                        groupKey,
-                        {
-                            name:
-                                place.source ===
-                                "LION Telegram"
-                                    ? "LION KURS"
-                                    : place.name,
-                            items: []
-                        }
-                    );
-                }
-
-                groups
-                    .get(groupKey)
-                    .items
-                    .push(place);
-            });
-
-            const sorted =
-                Array.from(
-                    groups.values()
-                ).sort(
+                bankData.sort(
                     (a,b) =>
                         a.name.localeCompare(
                             b.name,
@@ -1212,241 +1324,801 @@
                         )
                 );
 
-            if (!sorted.length) {
+                bankData.forEach(
+                    place => {
 
-                container.innerHTML =
-                    '<div style="padding:15px;color:#aaa;">Нічого не знайдено.</div>';
+                        const marker =
+                            L.marker(
+                                [
+                                    place.lat,
+                                    place.lon
+                                ],
+                                {
+                                    icon:
+                                        bankIcon()
+                                }
+                            )
+                            .addTo(map);
+
+                        popup(
+                            marker,
+                            place
+                        );
+
+                        bankMarkers.push(
+                            marker
+                        );
+                    }
+                );
+
+                render(
+                    lists.bank,
+                    bankData,
+                    "bank"
+                );
+
+                status(
+                    "Знайдено " +
+                    bankData.length +
+                    " банків у Рівному."
+                );
+
+            } catch (
+                error
+            ) {
+
+                console.error(
+                    "BANKS:",
+                    error
+                );
+
+                lists.bank.innerHTML =
+                    `
+                        <div style="padding:15px;color:#aaa">
+                            Не вдалося завантажити банки.
+                            Спробуйте натиснути «Банки» ще раз.
+                        </div>
+                    `;
+
+                status(
+                    "Не вдалося отримати дані банків."
+                );
+            }
+        }
+
+        /*
+         * =====================================================
+         * ОБМІННИКИ
+         * =====================================================
+         */
+
+        async function showExchanges() {
+
+            activeCategory =
+                "exchange";
+
+            const current =
+                ++operationId;
+
+            clearMarkers();
+            closePanels();
+
+            panels.exchange.classList.add(
+                "open"
+            );
+
+            lists.exchange.innerHTML =
+                `
+                    <div style="padding:15px;color:#aaa">
+                        Завантаження обмінників...
+                    </div>
+                `;
+
+            status(
+                "Завантажую обмінники Рівного..."
+            );
+
+            const query = `
+
+                [out:json][timeout:30];
+
+                (
+                    node["amenity"="bureau_de_change"]
+                    (50.57,26.15,50.68,26.38);
+
+                    way["amenity"="bureau_de_change"]
+                    (50.57,26.15,50.68,26.38);
+
+                    relation["amenity"="bureau_de_change"]
+                    (50.57,26.15,50.68,26.38);
+                );
+
+                out center tags;
+            `;
+
+            let osm = [];
+
+            try {
+
+                const data =
+                    await overpass(
+                        query
+                    );
+
+                osm =
+                    osmPlaces(
+                        data.elements,
+                        "Обмінник"
+                    );
+
+            } catch (
+                error
+            ) {
+
+                console.warn(
+                    "EXCHANGES:",
+                    error
+                );
+            }
+
+            if (
+                current !==
+                    operationId
+            ) {
 
                 return;
             }
 
-            sorted.forEach(group => {
+            exchangeData = [
+                ...osm,
+                ...LION
+            ];
 
-                const button =
-                    document.createElement(
-                        "button"
+            exchangeData.forEach(
+                place => {
+
+                    const marker =
+                        L.marker(
+                            [
+                                place.lat,
+                                place.lon
+                            ],
+                            {
+                                icon:
+                                    exchangeIcon()
+                            }
+                        )
+                        .addTo(map);
+
+                    popup(
+                        marker,
+                        place
                     );
 
-                button.className =
-                    "item";
+                    exchangeMarkers.push(
+                        marker
+                    );
+                }
+            );
 
-                button.type =
-                    "button";
+            render(
+                lists.exchange,
+                exchangeData,
+                "exchange"
+            );
 
-                const first =
-                    group.items[0];
+            const lionCount =
+                LION.length;
 
-                const isLion =
-                    first.source ===
-                    "LION Telegram";
+            const osmCount =
+                osm.length;
 
-                const address =
-                    isLion
-                        ? `${group.items.length} перевірених точок`
-                        : (
-                            first.address ||
-                            `${group.items.length} точок`
-                          );
+            status(
+                "Знайдено " +
+                exchangeData.length +
+                " обмінників. " +
+                "OSM: " +
+                osmCount +
+                ", LION KURS: " +
+                lionCount +
+                "."
+            );
+        }
 
-                button.innerHTML = `
-                    <span class="item-name">
-                        ${escapeHtml(group.name)}
-                    </span>
+        /*
+         * =====================================================
+         * СУДИ
+         * =====================================================
+         */
 
-                    <span class="item-address">
-                        ${escapeHtml(address)}
-                    </span>
+        function showCourts() {
 
-                    ${
-                        isLion
-                            ? `<span class="item-source">
-                                перевірено
-                               </span>`
-                            : ""
+            activeCategory =
+                "court";
+
+            ++operationId;
+
+            clearMarkers();
+            closePanels();
+
+            panels.court.classList.add(
+                "open"
+            );
+
+            COURTS.forEach(
+                place => {
+
+                    const marker =
+                        L.marker(
+                            [
+                                place.lat,
+                                place.lon
+                            ],
+                            {
+                                icon:
+                                    courtIcon()
+                            }
+                        )
+                        .addTo(map);
+
+                    popup(
+                        marker,
+                        place
+                    );
+
+                    courtMarkers.push(
+                        marker
+                    );
+                }
+            );
+
+            render(
+                lists.court,
+                COURTS,
+                "court"
+            );
+
+            status(
+                "Знайдено " +
+                COURTS.length +
+                " судів у Рівному."
+            );
+        }
+
+        /*
+         * =====================================================
+         * ЦНАП
+         * =====================================================
+         */
+
+        function showCnap() {
+
+            activeCategory =
+                "cnap";
+
+            ++operationId;
+
+            clearMarkers();
+            closePanels();
+
+            panels.cnap.classList.add(
+                "open"
+            );
+
+            CNAP.forEach(
+                place => {
+
+                    const marker =
+                        L.marker(
+                            [
+                                place.lat,
+                                place.lon
+                            ],
+                            {
+                                icon:
+                                    cnapIcon()
+                            }
+                        )
+                        .addTo(map);
+
+                    popup(
+                        marker,
+                        place
+                    );
+
+                    cnapMarkers.push(
+                        marker
+                    );
+                }
+            );
+
+            render(
+                lists.cnap,
+                CNAP,
+                "cnap"
+            );
+
+            status(
+                "Знайдено " +
+                CNAP.length +
+                " точок ЦНАП."
+            );
+        }
+
+        /*
+         * =====================================================
+         * ВИБІР ОДНОГО ОБ'ЄКТА
+         * =====================================================
+         */
+
+        function selectOne(
+            place,
+            type
+        ) {
+
+            activeCategory =
+                type;
+
+            ++operationId;
+
+            clearMarkers();
+            closePanels();
+
+            let icon;
+
+            if (
+                type === "bank"
+            ) {
+                icon =
+                    bankIcon();
+            }
+
+            if (
+                type === "exchange"
+            ) {
+                icon =
+                    exchangeIcon();
+            }
+
+            if (
+                type === "court"
+            ) {
+                icon =
+                    courtIcon();
+            }
+
+            if (
+                type === "cnap"
+            ) {
+                icon =
+                    cnapIcon();
+            }
+
+            const marker =
+                L.marker(
+                    [
+                        place.lat,
+                        place.lon
+                    ],
+                    {
+                        icon
                     }
-                `;
+                )
+                .addTo(map);
 
-                button.onclick =
-                    () => {
+            popup(
+                marker,
+                place
+            );
 
-                        showNetwork(
-                            first,
-                            isExchange
-                                ? "exchange"
-                                : "bank"
+            map.setView(
+                [
+                    place.lat,
+                    place.lon
+                ],
+                16
+            );
+
+            marker.openPopup();
+        }
+
+        /*
+         * =====================================================
+         * РЕНДЕР СПИСКУ
+         * =====================================================
+         */
+
+        function render(
+            container,
+            items,
+            type
+        ) {
+
+            container.innerHTML =
+                "";
+
+            if (
+                !items.length
+            ) {
+
+                container.innerHTML =
+                    `
+                        <div style="padding:15px;color:#aaa">
+                            Нічого не знайдено.
+                        </div>
+                    `;
+
+                return;
+            }
+
+            items.forEach(
+                place => {
+
+                    const button =
+                        document.createElement(
+                            "button"
                         );
 
-                        if (isExchange) {
-                            exchangePanel
-                                .classList
-                                .remove("open");
-                        } else {
-                            bankPanel
-                                .classList
-                                .remove("open");
-                        }
-                    };
+                    button.className =
+                        "item";
 
-                container.appendChild(
-                    button
-                );
-            });
+                    button.type =
+                        "button";
+
+                    const verified =
+                        place.source ===
+                        "LION"
+
+                            ? `
+                                <span class="verified">
+                                    перевірено
+                                </span>
+                              `
+                            : "";
+
+                    button.innerHTML =
+                        `
+                            <span
+                                class="item-name">
+
+                                ${
+                                    escapeHtml(
+                                        place.name
+                                    )
+                                }
+
+                            </span>
+
+                            <span
+                                class="item-address">
+
+                                ${
+                                    escapeHtml(
+                                        place.address ||
+                                        "Адресу не внесено в OSM"
+                                    )
+                                }
+
+                            </span>
+
+                            ${verified}
+
+                        `;
+
+                    button.onclick =
+                        () =>
+                            selectOne(
+                                place,
+                                type
+                            );
+
+                    container.appendChild(
+                        button
+                    );
+                }
+            );
         }
 
         /*
-         * ПОШУК БАНКІВ
+         * =====================================================
+         * ПОШУК
+         * =====================================================
          */
 
-        bankSearch.addEventListener(
-            "input",
-            () => {
+        function connectSearch(
+            input,
+            source,
+            container,
+            type
+        ) {
 
-                const value =
-                    bankSearch.value
-                        .trim()
-                        .toLowerCase();
+            input.addEventListener(
+                "input",
+                () => {
 
-                const filtered =
-                    bankData.filter(
-                        item =>
-                            item.name
-                                .toLowerCase()
-                                .includes(value)
+                    const value =
+                        input.value
+                            .trim()
+                            .toLowerCase();
+
+                    const result =
+                        source.filter(
+                            item =>
+                                item.name
+                                    .toLowerCase()
+                                    .includes(
+                                        value
+                                    ) ||
+
+                                item.address
+                                    .toLowerCase()
+                                    .includes(
+                                        value
+                                    )
+                        );
+
+                    render(
+                        container,
+                        result,
+                        type
                     );
+                }
+            );
+        }
 
-                renderList(
-                    bankList,
-                    filtered,
-                    false
-                );
-            }
+        connectSearch(
+            document.getElementById(
+                "bankSearch"
+            ),
+            () =>
+                bankData,
+            document.getElementById(
+                "bankList"
+            ),
+            "bank"
+        );
+
+        connectSearch(
+            document.getElementById(
+                "exchangeSearch"
+            ),
+            () =>
+                exchangeData,
+            document.getElementById(
+                "exchangeList"
+            ),
+            "exchange"
+        );
+
+        connectSearch(
+            document.getElementById(
+                "courtSearch"
+            ),
+            () =>
+                COURTS,
+            document.getElementById(
+                "courtList"
+            ),
+            "court"
+        );
+
+        connectSearch(
+            document.getElementById(
+                "cnapSearch"
+            ),
+            () =>
+                CNAP,
+            document.getElementById(
+                "cnapList"
+            ),
+            "cnap"
         );
 
         /*
-         * ПОШУК ОБМІННИКІВ
-         */
-
-        exchangeSearch.addEventListener(
-            "input",
-            () => {
-
-                const value =
-                    exchangeSearch.value
-                        .trim()
-                        .toLowerCase();
-
-                const filtered =
-                    exchangeData.filter(
-                        item =>
-                            item.name
-                                .toLowerCase()
-                                .includes(value) ||
-                            item.address
-                                .toLowerCase()
-                                .includes(value)
-                    );
-
-                renderList(
-                    exchangeList,
-                    filtered,
-                    true
-                );
-            }
-        );
-
-        /*
-         * БАНКИ
+         * =====================================================
+         * КНОПКИ
+         * =====================================================
          */
 
         document
-            .getElementById("banksButton")
-            .addEventListener(
-                "click",
-                async () => {
+            .getElementById(
+                "bankButton"
+            )
+            .onclick =
+                showBanks;
 
-                    exchangePanel
-                        .classList
-                        .remove("open");
+        document
+            .getElementById(
+                "exchangeButton"
+            )
+            .onclick =
+                showExchanges;
 
-                    bankPanel
-                        .classList
-                        .toggle("open");
+        document
+            .getElementById(
+                "courtButton"
+            )
+            .onclick =
+                showCourts;
 
-                    if (
-                        bankPanel
-                            .classList
-                            .contains("open") &&
-                        bankData.length === 0
-                    ) {
-                        await loadBanks();
-                    }
-                }
-            );
+        document
+            .getElementById(
+                "cnapButton"
+            )
+            .onclick =
+                showCnap;
 
         /*
-         * ОБМІННИКИ
+         * =====================================================
+         * ГЕОЛОКАЦІЯ
+         * =====================================================
          */
 
         document
-            .getElementById("exchangeButton")
-            .addEventListener(
-                "click",
-                async () => {
-
-                    bankPanel
-                        .classList
-                        .remove("open");
-
-                    exchangePanel
-                        .classList
-                        .toggle("open");
+            .getElementById(
+                "locationButton"
+            )
+            .onclick =
+                () => {
 
                     if (
-                        exchangePanel
-                            .classList
-                            .contains("open") &&
-                        exchangeData.length === 0
+                        !navigator.geolocation
                     ) {
-                        await loadExchanges();
+
+                        status(
+                            "Ваш браузер не підтримує геолокацію."
+                        );
+
+                        return;
                     }
-                }
-            );
 
-        function clearBankMarkers() {
+                    status(
+                        "Визначаю вашу локацію..."
+                    );
 
-            bankMarkers.forEach(
-                marker =>
-                    map.removeLayer(
-                        marker
-                    )
-            );
+                    navigator
+                        .geolocation
+                        .getCurrentPosition(
 
-            bankMarkers = [];
-        }
+                            position => {
 
-        function clearExchangeMarkers() {
+                                const lat =
+                                    position
+                                        .coords
+                                        .latitude;
 
-            exchangeMarkers.forEach(
-                marker =>
-                    map.removeLayer(
-                        marker
-                    )
-            );
+                                const lon =
+                                    position
+                                        .coords
+                                        .longitude;
 
-            exchangeMarkers = [];
-        }
+                                const accuracy =
+                                    position
+                                        .coords
+                                        .accuracy;
 
-        showStatus(
-            "Карта Рівного готова."
-        );
+                                map.setView(
+                                    [
+                                        lat,
+                                        lon
+                                    ],
+                                    16
+                                );
 
-        setTimeout(
-            hideStatus,
-            3000
-        );
+                                if (
+                                    userMarker
+                                ) {
+
+                                    map.removeLayer(
+                                        userMarker
+                                    );
+                                }
+
+                                if (
+                                    accuracyCircle
+                                ) {
+
+                                    map.removeLayer(
+                                        accuracyCircle
+                                    );
+                                }
+
+                                userMarker =
+                                    L.marker(
+                                        [
+                                            lat,
+                                            lon
+                                        ],
+                                        {
+                                            icon:
+                                                userIcon()
+                                        }
+                                    )
+                                    .addTo(map)
+                                    .bindPopup(
+                                        "📍 Ви тут"
+                                    )
+                                    .openPopup();
+
+                                accuracyCircle =
+                                    L.circle(
+                                        [
+                                            lat,
+                                            lon
+                                        ],
+                                        {
+                                            radius:
+                                                accuracy,
+
+                                            color:
+                                                "#10b981",
+
+                                            fillColor:
+                                                "#10b981",
+
+                                            fillOpacity:
+                                                .08,
+
+                                            weight: 1
+                                        }
+                                    )
+                                    .addTo(map);
+
+                                status(
+                                    "Локацію визначено. " +
+                                    "Точність приблизно " +
+                                    Math.round(
+                                        accuracy
+                                    ) +
+                                    " м."
+                                );
+
+                                setTimeout(
+                                    hideStatus,
+                                    5000
+                                );
+                            },
+
+                            error => {
+
+                                if (
+                                    error.code === 1
+                                ) {
+
+                                    status(
+                                        "Доступ до геолокації заборонено."
+                                    );
+
+                                } else if (
+                                    error.code === 2
+                                ) {
+
+                                    status(
+                                        "Не вдалося визначити координати."
+                                    );
+
+                                } else {
+
+                                    status(
+                                        "Час очікування геолокації вичерпано."
+                                    );
+                                }
+                            },
+
+                            {
+                                enableHighAccuracy:
+                                    true,
+
+                                timeout:
+                                    30000,
+
+                                maximumAge:
+                                    0
+                            }
+                        );
+                };
 
     </script>
 
 </body>
-
 </html>

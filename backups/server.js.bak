@@ -1,0 +1,302 @@
+const express = require("express");
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+const OVERPASS_ENDPOINTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter"
+];
+
+app.use(express.static("."));
+
+async function queryOverpass(query) {
+    let lastError = null;
+
+    for (const endpoint of OVERPASS_ENDPOINTS) {
+        try {
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "User-Agent": "FinAP-Rivne-Map/1.0"
+                },
+                body: "data=" + encodeURIComponent(query)
+            });
+
+            if (!response.ok) {
+                lastError = new Error(
+                    `${endpoint} HTTP ${response.status}`
+                );
+                continue;
+            }
+
+            return await response.json();
+
+        } catch (error) {
+            lastError = error;
+        }
+    }
+
+    throw lastError || new Error("Overpass unavailable");
+}
+
+
+/*
+==========================================================
+ БАНКИ
+==========================================================
+*/
+
+app.get("/api/banks", async (req, res) => {
+
+    const query = `
+        [out:json][timeout:30];
+
+        (
+            node["amenity"="bank"]
+            (50.57,26.15,50.68,26.38);
+
+            way["amenity"="bank"]
+            (50.57,26.15,50.68,26.38);
+
+            relation["amenity"="bank"]
+            (50.57,26.15,50.68,26.38);
+        );
+
+        out center tags;
+    `;
+
+    try {
+
+        const data = await queryOverpass(query);
+
+        const places = data.elements
+            .map(element => {
+
+                const lat =
+                    element.lat ??
+                    element.center?.lat;
+
+                const lon =
+                    element.lon ??
+                    element.center?.lon;
+
+                const tags =
+                    element.tags || {};
+
+                if (
+                    typeof lat !== "number" ||
+                    typeof lon !== "number"
+                ) {
+                    return null;
+                }
+
+                return {
+                    id: element.id,
+                    name:
+                        tags.name ||
+                        tags.brand ||
+                        tags.operator ||
+                        "Банк",
+                    address: [
+                        tags["addr:street"],
+                        tags["addr:housenumber"]
+                    ]
+                        .filter(Boolean)
+                        .join(", "),
+                    lat,
+                    lon,
+                    source: "OpenStreetMap"
+                };
+            })
+            .filter(Boolean);
+
+        res.json({
+            success: true,
+            count: places.length,
+            places
+        });
+
+    } catch (error) {
+
+        console.error("BANK API ERROR:", error);
+
+        res.status(502).json({
+            success: false,
+            error: "Не вдалося отримати банки з OpenStreetMap"
+        });
+    }
+});
+
+
+/*
+==========================================================
+ ОБМІННИКИ
+==========================================================
+*/
+
+app.get("/api/exchanges", async (req, res) => {
+
+    const query = `
+        [out:json][timeout:30];
+
+        (
+            node["amenity"="bureau_de_change"]
+            (50.57,26.15,50.68,26.38);
+
+            way["amenity"="bureau_de_change"]
+            (50.57,26.15,50.68,26.38);
+
+            relation["amenity"="bureau_de_change"]
+            (50.57,26.15,50.68,26.38);
+        );
+
+        out center tags;
+    `;
+
+    const lion = [
+        {
+            name: "LION KURS",
+            address: "Рівне, вул. Кулика і Гудачека, 23",
+            lat: 50.625864,
+            lon: 26.200237,
+            source: "LION"
+        },
+        {
+            name: "LION KURS",
+            address: "Рівне, вул. Соборна, 17",
+            lat: 50.618590,
+            lon: 26.252720,
+            source: "LION"
+        },
+        {
+            name: "LION KURS",
+            address: "Рівне, вул. Василя Червонія, 16",
+            lat: 50.629400,
+            lon: 26.272404,
+            source: "LION"
+        },
+        {
+            name: "LION KURS",
+            address: "Рівне, вул. Чорновола, 98а",
+            lat: 50.595306,
+            lon: 26.257934,
+            source: "LION"
+        },
+        {
+            name: "LION KURS",
+            address: "Рівне, вул. Княгині Ольги, 1",
+            lat: 50.616909,
+            lon: 26.265080,
+            source: "LION"
+        }
+    ];
+
+    try {
+
+        const data = await queryOverpass(query);
+
+        const osm = data.elements
+            .map(element => {
+
+                const lat =
+                    element.lat ??
+                    element.center?.lat;
+
+                const lon =
+                    element.lon ??
+                    element.center?.lon;
+
+                const tags =
+                    element.tags || {};
+
+                if (
+                    typeof lat !== "number" ||
+                    typeof lon !== "number"
+                ) {
+                    return null;
+                }
+
+                return {
+                    id: element.id,
+                    name:
+                        tags.name ||
+                        tags.brand ||
+                        tags.operator ||
+                        "Обмінник",
+                    address: [
+                        tags["addr:street"],
+                        tags["addr:housenumber"]
+                    ]
+                        .filter(Boolean)
+                        .join(", "),
+                    lat,
+                    lon,
+                    source: "OpenStreetMap"
+                };
+            })
+            .filter(Boolean);
+
+        const places = [
+            ...osm,
+            ...lion
+        ];
+
+        res.json({
+            success: true,
+            count: places.length,
+            osmCount: osm.length,
+            lionCount: lion.length,
+            places
+        });
+
+    } catch (error) {
+
+        console.error(
+            "EXCHANGE API ERROR:",
+            error
+        );
+
+        /*
+         * Навіть якщо Overpass впав,
+         * LION все одно доступний.
+         */
+
+        res.json({
+            success: true,
+            count: lion.length,
+            osmCount: 0,
+            lionCount: lion.length,
+            places: lion,
+            warning:
+                "OpenStreetMap тимчасово недоступний"
+        });
+    }
+});
+
+
+/*
+==========================================================
+ ПЕРЕВІРКА API
+==========================================================
+*/
+
+app.get("/api/health", (req, res) => {
+
+    res.json({
+        success: true,
+        service: "FinAP Map API",
+        status: "online"
+    });
+});
+
+
+app.listen(PORT, () => {
+
+    console.log(
+        `FinAP server running on http://localhost:${PORT}`
+    );
+
+});
