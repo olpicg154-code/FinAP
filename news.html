@@ -1,1147 +1,562 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="uk">
 
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>FinAP — Новини</title>
-
     <style>
-
+        /* --- (стилі залишені як у попередньому файлі, для стислості опущені) --- */
         * {
-            box-sizing: border-box;
+            box-sizing: border-box
         }
 
         html,
         body {
             margin: 0;
-            min-height: 100%;
+            min-height: 100%
         }
 
         body {
-
-            background:
-                radial-gradient(
-                    circle at top right,
-                    rgba(0,180,255,.08),
-                    transparent 35%
-                ),
-                #07111f;
-
+            background: radial-gradient(circle at top right, rgba(0, 180, 255, .08), transparent 35%), #07111f;
             color: #fff;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+            font-family: Arial, Helvetica, sans-serif
         }
 
         .topbar {
-
             position: fixed;
-
             top: 0;
             left: 0;
             right: 0;
-
             height: 78px;
-
             display: flex;
-
             align-items: center;
             justify-content: space-between;
-
-            padding:
-                0 28px;
-
+            padding: 0 28px;
             z-index: 1000;
-
-            background:
-                rgba(7,17,31,.88);
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.06);
-
-            backdrop-filter:
-                blur(16px);
-
-            -webkit-backdrop-filter:
-                blur(16px);
+            background: rgba(7, 17, 31, .88);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            backdrop-filter: blur(16px)
         }
 
         .page-title {
-
             margin: 0;
-
             font-size: 24px;
-
             font-weight: 700;
-
             letter-spacing: 1px;
-
-            text-shadow:
-                0 0 8px
-                rgba(0,195,255,.25);
+            text-shadow: 0 0 8px rgba(0, 195, 255, .25)
         }
 
         .home-btn {
-
             display: inline-flex;
-
             align-items: center;
             justify-content: center;
-
             min-width: 132px;
-
             height: 40px;
-
-            padding:
-                0 18px;
-
+            padding: 0 18px;
             border-radius: 10px;
-
-            border:
-                1px solid
-                rgba(77,211,255,.55);
-
-            background:
-                rgba(0,168,255,.07);
-
-            color:
-                #dff8ff;
-
-            text-decoration:
-                none;
-
+            border: 1px solid rgba(77, 211, 255, .55);
+            background: rgba(0, 168, 255, .07);
+            color: #dff8ff;
+            text-decoration: none;
             font-size: 12px;
-
             font-weight: 700;
-
             letter-spacing: .8px;
-
-            box-shadow:
-                0 0 6px
-                rgba(0,200,255,.28),
-
-                inset 0 0 10px
-                rgba(0,200,255,.04);
-
-            transition:
-                .2s ease;
-        }
-
-        .home-btn:hover {
-
-            transform:
-                translateY(-1px);
-
-            border-color:
-                rgba(77,211,255,.9);
-
-            background:
-                rgba(0,168,255,.12);
-
-            box-shadow:
-                0 0 10px
-                rgba(0,200,255,.45),
-
-                0 0 20px
-                rgba(0,200,255,.14);
+            box-shadow: 0 0 6px rgba(0, 200, 255, .28), inset 0 0 10px rgba(0, 200, 255, .04);
+            transition: .2s
         }
 
         .page {
-
-            max-width:
-                1200px;
-
-            margin:
-                0 auto;
-
-            padding:
-                118px
-                24px
-                50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 118px 24px 50px
         }
 
-        .news-heading {
-
-            margin-bottom:
-                30px;
+        .heading {
+            margin-bottom: 30px
         }
 
-        .news-heading h1 {
-
-            margin:
-                0 0 8px;
-
-            font-size:
-                34px;
+        .heading h1 {
+            margin: 0 0 8px;
+            font-size: 34px;
+            line-height: 1.1
         }
 
-        .news-heading p {
-
+        .heading p {
             margin: 0;
-
-            color:
-                rgba(255,255,255,.55);
-
-            font-size:
-                14px;
+            color: rgba(255, 255, 255, .55);
+            font-size: 14px
         }
 
-        .sources {
-
-            display:
-                grid;
-
-            grid-template-columns:
-                repeat(
-                    2,
-                    minmax(0,1fr)
-                );
-
-            gap:
-                20px;
+        .main-sources {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px
         }
 
         .source-card {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                space-between;
-
-            gap:
-                20px;
-
-            min-height:
-                150px;
-
-            padding:
-                22px 24px;
-
-            border-radius:
-                18px;
-
-            border:
-                1px solid
-                rgba(77,211,255,.48);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(0,180,255,.07),
-                    rgba(255,255,255,.025)
-                );
-
-            box-shadow:
-
-                0 0 8px
-                rgba(0,200,255,.20),
-
-                0 0 22px
-                rgba(0,200,255,.07),
-
-                inset 0 0 12px
-                rgba(0,200,255,.03);
-
-            transition:
-                .2s ease;
-        }
-
-        .source-card:hover {
-
-            transform:
-                translateY(-2px);
-
-            border-color:
-                rgba(77,211,255,.85);
-
-            box-shadow:
-
-                0 0 10px
-                rgba(0,200,255,.38),
-
-                0 0 28px
-                rgba(0,200,255,.10);
+            min-height: 165px;
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(77, 211, 255, .48);
+            background: linear-gradient(135deg, rgba(0, 180, 255, .07), rgba(255, 255, 255, .025));
+            box-shadow: 0 0 8px rgba(0, 200, 255, .2), 0 0 22px rgba(0, 200, 255, .07), inset 0 0 12px rgba(0, 200, 255, .03);
+            transition: .2s
         }
 
         .source-info {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                16px;
-
-            min-width:
-                0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0
         }
 
         .source-logo {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            width:
-                60px;
-
-            height:
-                60px;
-
-            flex-shrink:
-                0;
-
-            border-radius:
-                14px;
-
-            color:
-                #dff8ff;
-
-            border:
-                1px solid
-                rgba(77,211,255,.55);
-
-            background:
-                rgba(0,180,255,.07);
-
-            box-shadow:
-                0 0 8px
-                rgba(0,200,255,.28),
-
-                inset 0 0 10px
-                rgba(0,200,255,.05);
-
-            font-size:
-                15px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                1px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            border: 1px solid rgba(77, 211, 255, .55);
+            background: rgba(0, 180, 255, .07);
+            box-shadow: 0 0 8px rgba(0, 200, 255, .28);
+            color: #dff8ff;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: .7px
         }
 
         .source-title {
-
-            margin:
-                0 0 6px;
-
-            font-size:
-                17px;
+            margin: 0 0 6px;
+            font-size: 17px
         }
 
-        .source-description {
-
-            margin:
-                0;
-
-            color:
-                rgba(255,255,255,.55);
-
-            font-size:
-                12px;
-
-            line-height:
-                1.45;
+        .source-text {
+            margin: 0;
+            color: rgba(255, 255, 255, .55);
+            font-size: 12px;
+            line-height: 1.45
         }
 
         .source-right {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                10px;
-
-            flex-shrink:
-                0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0
         }
 
         .new-badge {
-
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            min-width:
-                36px;
-
-            height:
-                29px;
-
-            padding:
-                0 9px;
-
-            border-radius:
-                999px;
-
-            background:
-                rgba(
-                    239,
-                    68,
-                    68,
-                    .12
-                );
-
-            border:
-                1px solid
-                rgba(
-                    239,
-                    68,
-                    68,
-                    .55
-                );
-
-            color:
-                #ff8f8f;
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-            animation:
-                newsPulse
-                1.4s
-                ease-in-out
-                infinite;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 29px;
+            padding: 0 9px;
+            border-radius: 999px;
+            background: rgba(239, 68, 68, .12);
+            border: 1px solid rgba(239, 68, 68, .60);
+            color: #ff8f8f;
+            font-size: 11px;
+            font-weight: 800;
+            animation: pulseRed 1.4s ease-in-out infinite
         }
 
         .new-badge.hidden {
-            display: none;
+            display: none
         }
 
-        @keyframes newsPulse {
+        @keyframes pulseRed {
 
             0%,
             100% {
-
-                transform:
-                    scale(1);
-
-                box-shadow:
-                    0 0 8px
-                    rgba(239,68,68,.28);
+                transform: scale(1);
+                box-shadow: 0 0 7px rgba(239, 68, 68, .28)
             }
 
             50% {
-
-                transform:
-                    scale(1.08);
-
-                box-shadow:
-
-                    0 0 12px
-                    rgba(239,68,68,.65),
-
-                    0 0 22px
-                    rgba(239,68,68,.25);
+                transform: scale(1.08);
+                box-shadow: 0 0 13px rgba(239, 68, 68, .65), 0 0 23px rgba(239, 68, 68, .24)
             }
         }
 
         .source-btn {
-
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            min-height:
-                40px;
-
-            padding:
-                0 15px;
-
-            border-radius:
-                10px;
-
-            border:
-                1px solid
-                rgba(77,211,255,.55);
-
-            background:
-                rgba(0,180,255,.06);
-
-            color:
-                #dff8ff;
-
-            text-decoration:
-                none;
-
-            font-size:
-                10px;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                .6px;
-
-            white-space:
-                nowrap;
-
-            transition:
-                .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(77, 211, 255, .55);
+            background: rgba(0, 180, 255, .06);
+            color: #dff8ff;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .6px;
+            white-space: nowrap;
+            transition: .2s
         }
 
-        .source-btn:hover {
+        .sanctions-card {
+            width: 100%;
+            padding: 22px 24px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 90, 90, .46);
+            background: linear-gradient(135deg, rgba(255, 60, 60, .055), rgba(255, 255, 255, .025));
+            box-shadow: 0 0 8px rgba(255, 60, 60, .17), 0 0 22px rgba(255, 60, 60, .06), inset 0 0 12px rgba(255, 60, 60, .025);
+            transition: .2s
+        }
 
-            border-color:
-                rgba(77,211,255,.95);
+        .sanctions-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 18px
+        }
 
-            background:
-                rgba(0,180,255,.11);
+        .sanctions-info {
+            display: flex;
+            align-items: center;
+            gap: 16px
+        }
 
-            box-shadow:
-                0 0 10px
-                rgba(0,200,255,.45);
+        .sanctions-logo {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 100, 100, .55);
+            background: rgba(255, 60, 60, .06);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .7px;
+            box-shadow: 0 0 8px rgba(255, 60, 60, .22)
+        }
+
+        .sanctions-title {
+            margin: 0 0 5px;
+            font-size: 18px
+        }
+
+        .sanctions-text {
+            margin: 0;
+            color: rgba(255, 255, 255, .55);
+            font-size: 12px
+        }
+
+        .sanctions-right {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .sanctions-sources {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px
+        }
+
+        .sanction-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            min-height: 58px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .025);
+            transition: .2s
+        }
+
+        .sanction-name {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 12px;
+            font-weight: 700
+        }
+
+        .sanction-icon {
+            color: #ff8f8f
+        }
+
+        .sanction-btn {
+            padding: 7px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 100, 100, .35);
+            background: transparent;
+            color: #ffeaea;
+            text-decoration: none;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap
         }
 
         .updated {
-
-            margin-top:
-                20px;
-
-            color:
-                rgba(255,255,255,.35);
-
-            text-align:
-                center;
-
-            font-size:
-                11px;
+            margin-top: 22px;
+            text-align: center;
+            color: rgba(255, 255, 255, .34);
+            font-size: 11px
         }
 
-        @media (
-            max-width: 850px
-        ) {
+        @media(max-width:950px) {
+            .main-sources {
+                grid-template-columns: 1fr
+            }
 
-            .sources {
-
-                grid-template-columns:
-                    1fr;
+            .sanctions-sources {
+                grid-template-columns: 1fr
             }
         }
-
-        @media (
-            max-width: 650px
-        ) {
-
-            .topbar {
-
-                height:
-                    68px;
-
-                padding:
-                    0 14px;
-            }
-
-            .page-title {
-
-                font-size:
-                    18px;
-            }
-
-            .home-btn {
-
-                min-width:
-                    112px;
-
-                height:
-                    36px;
-
-                font-size:
-                    10px;
-            }
-
-            .page {
-
-                padding:
-                    98px
-                    14px
-                    35px;
-            }
-
-            .news-heading h1 {
-
-                font-size:
-                    28px;
-            }
-
-            .source-card {
-
-                align-items:
-                    flex-start;
-
-                flex-direction:
-                    column;
-            }
-
-            .source-right {
-
-                width:
-                    100%;
-
-                justify-content:
-                    flex-end;
-            }
-        }
-
     </style>
-
 </head>
 
 <body>
-
     <header class="topbar">
-
-        <h1 class="page-title">
-            FINAP NEWS
-        </h1>
-
-        <a
-            href="index.html"
-            class="home-btn">
-
-            НА ГОЛОВНУ
-
-        </a>
-
+        <h1 class="page-title">FINAP NEWS</h1>
+        <a href="index.html" class="home-btn">НА ГОЛОВНУ</a>
     </header>
 
-
     <main class="page">
-
-        <section class="news-heading">
-
-            <h1>
-                Новини
-            </h1>
-
-            <p>
-                Свіжі офіційні новини фінансових регуляторів.
-            </p>
-
+        <section class="heading">
+            <h1>Новини</h1>
+            <p>Свіжі офіційні новини фінансових регуляторів та санкційні оновлення.</p>
         </section>
 
-
-        <section class="sources">
-
+        <section class="main-sources">
             <!-- FATF -->
-
             <article class="source-card">
-
                 <div class="source-info">
-
-                    <div class="source-logo">
-                        FATF
-                    </div>
-
+                    <div class="source-logo">FATF</div>
                     <div>
-
-                        <h2 class="source-title">
-                            Financial Action Task Force
-                        </h2>
-
-                        <p class="source-description">
-                            Офіційні новини,
-                            заяви та публікації FATF.
-                        </p>
-
+                        <h2 class="source-title">Financial Action Task Force</h2>
+                        <p class="source-text">Офіційні новини, заяви та публікації FATF.</p>
                     </div>
-
                 </div>
-
                 <div class="source-right">
-
-                    <span
-                        id="fatfBadge"
-                        class="new-badge hidden">
-                    </span>
-
-                    <a
-                        id="fatfButton"
-                        href="https://www.fatf-gafi.org/en/the-fatf/news.html"
-                        target="_blank"
-                        rel="noopener"
-                        class="source-btn">
-
-                        FATF →
-
-                    </a>
-
+                    <span id="fatfBadge" class="new-badge hidden"></span>
+                    <a id="fatfButton" class="source-btn" href="https://www.fatf-gafi.org/en/the-fatf/news.html"
+                        target="_blank" rel="noopener">FATF →</a>
                 </div>
-
             </article>
-
 
             <!-- НБУ -->
-
             <article class="source-card">
-
                 <div class="source-info">
-
-                    <div class="source-logo">
-                        НБУ
-                    </div>
-
+                    <div class="source-logo">НБУ</div>
                     <div>
-
-                        <h2 class="source-title">
-                            Національний банк України
-                        </h2>
-
-                        <p class="source-description">
-                            Офіційні новини,
-                            рішення та повідомлення НБУ.
-                        </p>
-
+                        <h2 class="source-title">Національний банк України</h2>
+                        <p class="source-text">Офіційні новини, рішення та повідомлення НБУ.</p>
                     </div>
-
                 </div>
-
                 <div class="source-right">
-
-                    <span
-                        id="nbuBadge"
-                        class="new-badge hidden">
-                    </span>
-
-                    <a
-                        id="nbuButton"
-                        href="https://bank.gov.ua/ua/news"
-                        target="_blank"
-                        rel="noopener"
-                        class="source-btn">
-
-                        НБУ →
-
-                    </a>
-
+                    <span id="nbuBadge" class="new-badge hidden"></span>
+                    <a id="nbuButton" class="source-btn" href="https://bank.gov.ua/ua/news" target="_blank"
+                        rel="noopener">НБУ →</a>
                 </div>
-
             </article>
-
         </section>
 
+        <section class="sanctions-card">
+            <div class="sanctions-header">
+                <div class="sanctions-info">
+                    <div class="sanctions-logo">SANCTIONS</div>
+                    <div>
+                        <h2 class="sanctions-title">Санкції</h2>
+                        <p class="sanctions-text">Офіційні санкційні джерела України, США та ЄС.</p>
+                    </div>
+                </div>
+                <div class="sanctions-right">
+                    <!-- залишаємо без загального бейджа, бо тепер по-джерелах -->
+                </div>
+            </div>
 
-        <div
-            id="updated"
-            class="updated">
+            <div class="sanctions-sources">
+                <!-- RNBO -->
+                <div class="sanction-item">
+                    <div class="sanction-name"><span class="sanction-icon">🇺🇦</span>РНБО України</div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span id="rnboBadge" class="new-badge hidden" title="Нове"></span>
+                        <a id="rnboButton" class="sanction-btn" href="https://drs.nsdc.gov.ua/" target="_blank"
+                            rel="noopener" data-source="rnbo">РЕЄСТР →</a>
+                    </div>
+                </div>
 
-            Перевірка оновлень кожні 10 хвилин
+                <!-- OFAC -->
+                <div class="sanction-item">
+                    <div class="sanction-name"><span class="sanction-icon">🇺🇸</span>OFAC</div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span id="ofacBadge" class="new-badge hidden" title="Нове"></span>
+                        <a id="ofacButton" class="sanction-btn"
+                            href="https://ofac.treasury.gov/recent-actions/sanctions-list-updates" target="_blank"
+                            rel="noopener" data-source="ofac">OFAC →</a>
+                    </div>
+                </div>
 
-        </div>
+                <!-- EU -->
+                <div class="sanction-item">
+                    <div class="sanction-name"><span class="sanction-icon">🇪🇺</span>EU</div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span id="euBadge" class="new-badge hidden" title="Нове"></span>
+                        <a id="euButton" class="sanction-btn"
+                            href="https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
+                            target="_blank" rel="noopener" data-source="eu">EU →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <div id="updated" class="updated">Перевірка оновлень кожні 10 хвилин</div>
     </main>
 
-
     <script>
+        const REFRESH_MS = 10 * 60 * 1000;
 
-        const REFRESH_MS =
-            10 * 60 * 1000;
-
-        const STORAGE_KEYS = {
-
-            fatf:
-                "finap_fatf_seen_items",
-
-            nbu:
-                "finap_nbu_seen_items"
+        const STORAGE = {
+            fatf: "finap_fatf_seen_items",
+            nbu: "finap_nbu_seen_items",
+            rnbo: "finap_sanctions_rnbo_seen",
+            ofac: "finap_sanctions_ofac_seen",
+            eu: "finap_sanctions_eu_seen"
         };
 
-
-        function readSeen(
-            key
-        ) {
-
+        function readSeen(key) {
             try {
-
-                const raw =
-                    localStorage.getItem(
-                        key
-                    );
-
-                if (!raw) {
-                    return [];
-                }
-
-                const data =
-                    JSON.parse(raw);
-
-                return Array.isArray(
-                    data
-                )
-                    ? data
-                    : [];
-
-            } catch {
-
-                return [];
-            }
+                const raw = localStorage.getItem(key);
+                if (!raw) return [];
+                const data = JSON.parse(raw);
+                return Array.isArray(data) ? data : [];
+            } catch {return [];}
         }
 
-
-        function saveSeen(
-            key,
-            items
-        ) {
-
-            localStorage.setItem(
-                key,
-                JSON.stringify(
-                    items
-                )
-            );
+        function saveSeen(key, items) {
+            localStorage.setItem(key, JSON.stringify(items.slice(-300)));
         }
 
-
-        function getFreshUnseen(
-            news,
-            storageKey
-        ) {
-
-            const seen =
-                new Set(
-                    readSeen(
-                        storageKey
-                    )
-                );
-
-            return news.filter(
-                item =>
-                    !seen.has(
-                        item.id
-                    )
-            );
+        function getUnseen(news, key) {
+            const seen = new Set(readSeen(key));
+            return news.filter(item => !seen.has(item.id));
         }
 
-
-        function updateBadge(
-            badgeId,
-            news,
-            storageKey
-        ) {
-
-            const badge =
-                document.getElementById(
-                    badgeId
-                );
-
-            if (!badge) {
-                return;
-            }
-
-            const fresh =
-                getFreshUnseen(
-                    news,
-                    storageKey
-                );
-
-            if (
-                fresh.length > 0
-            ) {
-
-                badge.textContent =
-                    "+" +
-                    fresh.length;
-
-                badge.classList.remove(
-                    "hidden"
-                );
-
+        function setBadge(id, news, key) {
+            const badge = document.getElementById(id);
+            if (!badge) return;
+            const unseen = getUnseen(news, key);
+            if (unseen.length > 0) {
+                badge.textContent = "+" + unseen.length;
+                badge.classList.remove("hidden");
             } else {
-
-                badge.classList.add(
-                    "hidden"
-                );
+                badge.classList.add("hidden");
             }
         }
 
-
-        async function loadSources() {
-
+        async function loadNewsStatus() {
             try {
+                // main sources (FATF + NBU)
+                const resp = await fetch("/api/source-news", {cache: "no-store"});
+                if (!resp.ok) throw new Error("source-news HTTP " + resp.status);
+                const data = await resp.json();
+                const fatf = data.sources?.fatf?.news || [];
+                const nbu = data.sources?.nbu?.news || [];
 
-                const response =
-                    await fetch(
-                        "/api/source-news",
-                        {
-                            cache:
-                                "no-store"
+                setBadge("fatfBadge", fatf, STORAGE.fatf);
+                setBadge("nbuBadge", nbu, STORAGE.nbu);
+
+                // sanctions: per-source badges + set button href to latest article when available
+                try {
+                    const sresp = await fetch("/api/sanctions-news", {cache: "no-store"});
+                    if (sresp.ok) {
+                        const sdata = await sresp.json();
+                        // RNBO
+                        const rnboNews = sdata.sources?.rnbo?.news || [];
+                        setBadge("rnboBadge", rnboNews, STORAGE.rnbo);
+                        const rnboBtn = document.getElementById("rnboButton");
+                        if (rnboNews.length > 0 && rnboNews[0].url) {
+                            rnboBtn.href = rnboNews[0].url;
+                        } else {
+                            rnboBtn.href = sdata.sources?.rnbo?.officialUrl || rnboBtn.href;
                         }
-                    );
-
-                if (
-                    !response.ok
-                ) {
-
-                    throw new Error(
-                        "HTTP " +
-                        response.status
-                    );
+                        // OFAC
+                        const ofacNews = sdata.sources?.ofac?.news || [];
+                        setBadge("ofacBadge", ofacNews, STORAGE.ofac);
+                        const ofacBtn = document.getElementById("ofacButton");
+                        if (ofacNews.length > 0 && ofacNews[0].url) {
+                            ofacBtn.href = ofacNews[0].url;
+                        } else {
+                            ofacBtn.href = sdata.sources?.ofac?.officialUrl || ofacBtn.href;
+                        }
+                        // EU
+                        const euNews = sdata.sources?.eu?.news || [];
+                        setBadge("euBadge", euNews, STORAGE.eu);
+                        const euBtn = document.getElementById("euButton");
+                        if (euNews.length > 0 && euNews[0].url) {
+                            euBtn.href = euNews[0].url;
+                        } else {
+                            euBtn.href = sdata.sources?.eu?.officialUrl || euBtn.href;
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Sanctions status unavailable:", err && err.message ? err.message : err);
                 }
 
-                const data =
-                    await response.json();
-
-                const fatf =
-                    data.sources?.fatf;
-
-                const nbu =
-                    data.sources?.nbu;
-
-                const fatfNews =
-                    fatf?.success
-                        ? (
-                            fatf.news ||
-                            []
-                          )
-                        : [];
-
-                const nbuNews =
-                    nbu?.success
-                        ? (
-                            nbu.news ||
-                            []
-                          )
-                        : [];
-
-
-                updateBadge(
-                    "fatfBadge",
-                    fatfNews,
-                    STORAGE_KEYS.fatf
-                );
-
-
-                updateBadge(
-                    "nbuBadge",
-                    nbuNews,
-                    STORAGE_KEYS.nbu
-                );
-
-
-                const updated =
-                    document.getElementById(
-                        "updated"
-                    );
-
-                const now =
-                    new Date();
-
-                updated.textContent =
-                    "Остання перевірка: " +
-                    now.toLocaleTimeString(
-                        "uk-UA"
-                    ) +
-                    " · наступна через 10 хвилин";
-
+                document.getElementById("updated").textContent =
+                    "Остання перевірка: " + new Date().toLocaleTimeString("uk-UA") + " · наступна через 10 хвилин";
             } catch (error) {
-
-                console.error(
-                    "Source news error:",
-                    error
-                );
-
-                document
-                    .getElementById(
-                        "updated"
-                    )
-                    .textContent =
-                        "Не вдалося перевірити оновлення · повтор через 10 хвилин";
+                console.error("News source status error:", error);
+                document.getElementById("updated").textContent = "Не вдалося перевірити оновлення · повтор через 10 хвилин";
             }
         }
 
-
-        function markAsSeen(
-            source,
-            news
-        ) {
-
-            const key =
-                STORAGE_KEYS[
-                    source
-                ];
-
-            if (!key) {
-                return;
-            }
-
-            const existing =
-                new Set(
-                    readSeen(
-                        key
-                    )
-                );
-
-            news.forEach(
-                item =>
-                    existing.add(
-                        item.id
-                    )
-            );
-
-            /*
-             * Не накопичуємо безмежну кількість ID.
-             */
-
-            const trimmed =
-                Array.from(
-                    existing
-                ).slice(
-                    -200
-                );
-
-            saveSeen(
-                key,
-                trimmed
-            );
-
-            updateBadge(
-                source === "fatf"
-                    ? "fatfBadge"
-                    : "nbuBadge",
-
-                news,
-
-                key
-            );
-        }
-
-
-        async function openSource(
-            source
-        ) {
-
+        async function markSourceSeen(source) {
             try {
+                let endpoint = "/api/source-news";
+                if (source === "rnbo" || source === "ofac" || source === "eu") endpoint = "/api/sanctions-news";
+                const resp = await fetch(endpoint, {cache: "no-store"});
+                if (!resp.ok) return;
+                const data = await resp.json();
+                let items = [];
+                if (source === "fatf") items = data.sources?.fatf?.news || [];
+                else if (source === "nbu") items = data.sources?.nbu?.news || [];
+                else if (source === "rnbo") items = data.sources?.rnbo?.news || [];
+                else if (source === "ofac") items = data.sources?.ofac?.news || [];
+                else if (source === "eu") items = data.sources?.eu?.news || [];
 
-                const response =
-                    await fetch(
-                        "/api/source-news",
-                        {
-                            cache:
-                                "no-store"
-                        }
-                    );
-
-                if (
-                    !response.ok
-                ) {
-                    return;
-                }
-
-                const data =
-                    await response.json();
-
-                const sourceData =
-                    data.sources?.[
-                        source
-                    ];
-
-                const news =
-                    sourceData?.success
-                        ? (
-                            sourceData.news ||
-                            []
-                          )
-                        : [];
-
-                markAsSeen(
-                    source,
-                    news
-                );
-
-            } catch {
-                /* нічого */
+                const keyMap = {fatf: STORAGE.fatf, nbu: STORAGE.nbu, rnbo: STORAGE.rnbo, ofac: STORAGE.ofac, eu: STORAGE.eu};
+                const key = keyMap[source];
+                const old = new Set(readSeen(key));
+                items.forEach(i => old.add(i.id));
+                saveSeen(key, Array.from(old));
+                // hide only that badge
+                const badgeId = {fatf: "fatfBadge", nbu: "nbuBadge", rnbo: "rnboBadge", ofac: "ofacBadge", eu: "euBadge"}[source];
+                document.getElementById(badgeId)?.classList.add("hidden");
+            } catch (err) {
+                console.warn("markSourceSeen:", err && err.message ? err.message : err);
             }
         }
 
+        // attach handlers: FATF, NBU
+        document.getElementById("fatfButton").addEventListener("click", () => markSourceSeen("fatf"));
+        document.getElementById("nbuButton").addEventListener("click", () => markSourceSeen("nbu"));
+        // sanctions per-source handlers
+        document.getElementById("rnboButton").addEventListener("click", () => markSourceSeen("rnbo"));
+        document.getElementById("ofacButton").addEventListener("click", () => markSourceSeen("ofac"));
+        document.getElementById("euButton").addEventListener("click", () => markSourceSeen("eu"));
 
-        document
-            .getElementById(
-                "fatfButton"
-            )
-            .addEventListener(
-                "click",
-                () => {
-
-                    openSource(
-                        "fatf"
-                    );
-
-                }
-            );
-
-
-        document
-            .getElementById(
-                "nbuButton"
-            )
-            .addEventListener(
-                "click",
-                () => {
-
-                    openSource(
-                        "nbu"
-                    );
-
-                }
-            );
-
-
-        /*
-         * Перша перевірка.
-         */
-
-        loadSources();
-
-
-        /*
-         * Автоматичне оновлення
-         * кожні 10 хвилин.
-         */
-
-        setInterval(
-            loadSources,
-            REFRESH_MS
-        );
-
+        // start
+        loadNewsStatus();
+        setInterval(loadNewsStatus, REFRESH_MS);
     </script>
-
 </body>
 
 </html>

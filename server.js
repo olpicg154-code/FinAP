@@ -1288,7 +1288,453 @@ app.get(
 // ============================================================
 // START
 // ============================================================
+// ============================================================
+// SANCTIONS NEWS
+// РНБО + OFAC + EU
+// ============================================================
 
+const SANCTIONS_CACHE =
+    new Map();
+
+function parseNewsRss(
+    xml,
+    sourceName
+) {
+
+    const items = [];
+
+    const blocks =
+        xml.match(
+            /<item>[\s\S]*?<\/item>/gi
+        ) || [];
+
+    for (
+        const block of
+        blocks
+    ) {
+
+        const titleMatch =
+            block.match(
+                /<title>([\s\S]*?)<\/title>/i
+            );
+
+        const linkMatch =
+            block.match(
+                /<link>([\s\S]*?)<\/link>/i
+            );
+
+        const dateMatch =
+            block.match(
+                /<pubDate>([\s\S]*?)<\/pubDate>/i
+            );
+
+        if (
+            !titleMatch ||
+            !linkMatch
+        ) {
+            continue;
+        }
+
+        const title =
+            decodeXml(
+                titleMatch[1]
+            )
+            .replace(
+                /<[^>]+>/g,
+                " "
+            )
+            .replace(
+                /\s+/g,
+                " "
+            )
+            .trim();
+
+        const url =
+            decodeXml(
+                linkMatch[1]
+            ).trim();
+
+        const dateText =
+            dateMatch
+                ? decodeXml(
+                    dateMatch[1]
+                ).trim()
+                : "";
+
+        const publishedAt =
+            Date.parse(
+                dateText
+            );
+
+        if (
+            !title ||
+            !url ||
+            !Number.isFinite(
+                publishedAt
+            )
+        ) {
+            continue;
+        }
+
+        /*
+         * Тільки останні 24 години.
+         */
+
+        const age =
+            Date.now() -
+            publishedAt;
+
+        if (
+            age < 0 ||
+            age >
+                24 *
+                60 *
+                60 *
+                1000
+        ) {
+            continue;
+        }
+
+        items.push({
+
+            id:
+                sourceName +
+                ":" +
+                url +
+                ":" +
+                publishedAt,
+
+            title,
+
+            url,
+
+            publishedAt,
+
+            source:
+                sourceName
+        });
+    }
+
+    const unique = [];
+
+    const seen =
+        new Set();
+
+    for (
+        const item of
+        items
+    ) {
+
+        if (
+            seen.has(
+                item.url
+            )
+        ) {
+            continue;
+        }
+
+        seen.add(
+            item.url
+        );
+
+        unique.push(
+            item
+        );
+    }
+
+    unique.sort(
+        (
+            a,
+            b
+        ) =>
+            b.publishedAt -
+            a.publishedAt
+    );
+
+    return unique;
+}
+
+
+async function googleSanctionsRss(
+    query,
+    language,
+    country,
+    edition
+) {
+
+    const url =
+        "https://news.google.com/rss/search" +
+        "?q=" +
+        encodeURIComponent(
+            query
+        ) +
+        "&hl=" +
+        encodeURIComponent(
+            language
+        ) +
+        "&gl=" +
+        encodeURIComponent(
+            country
+        ) +
+        "&ceid=" +
+        encodeURIComponent(
+            edition
+        );
+
+    const response =
+        await fetchWithTimeout(
+            url,
+            {
+                headers: {
+                    "User-Agent":
+                        "Mozilla/5.0 FinAP Sanctions Monitor",
+                    "Accept":
+                        "application/rss+xml, application/xml, text/xml"
+                }
+            },
+            12000
+        );
+
+    if (
+        !response.ok
+    ) {
+
+        throw new Error(
+            `RSS HTTP ${response.status}`
+        );
+    }
+
+    return await response.text();
+}
+
+
+async function getSanctionsNews() {
+
+    const result = {
+
+        rnbo: {
+            success: false,
+            news: [],
+            officialUrl:
+                "https://drs.nsdc.gov.ua/"
+        },
+
+        ofac: {
+            success: false,
+            news: [],
+            officialUrl:
+                "https://ofac.treasury.gov/recent-actions/sanctions-list-updates"
+        },
+
+        eu: {
+            success: false,
+            news: [],
+            officialUrl:
+                "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
+        }
+    };
+
+
+    // ========================================================
+    // РНБО
+    // ========================================================
+
+    try {
+
+        const xml =
+            await googleSanctionsRss(
+                "site:rnbo.gov.ua санкції",
+                "uk",
+                "UA",
+                "UA:uk"
+            );
+
+        result.rnbo = {
+
+            success: true,
+
+            news:
+                parseNewsRss(
+                    xml,
+                    "РНБО"
+                ),
+
+            officialUrl:
+                "https://drs.nsdc.gov.ua/"
+        };
+
+    } catch (error) {
+
+        console.error(
+            "RNBO sanctions error:",
+            error.message
+        );
+    }
+
+
+    // ========================================================
+    // OFAC
+    // ========================================================
+
+    try {
+
+        const xml =
+            await googleSanctionsRss(
+                "site:ofac.treasury.gov/recent-actions sanctions",
+                "en-US",
+                "US",
+                "US:en"
+            );
+
+        result.ofac = {
+
+            success: true,
+
+            news:
+                parseNewsRss(
+                    xml,
+                    "OFAC"
+                ),
+
+            officialUrl:
+                "https://ofac.treasury.gov/recent-actions/sanctions-list-updates"
+        };
+
+    } catch (error) {
+
+        console.error(
+            "OFAC sanctions error:",
+            error.message
+        );
+    }
+
+
+    // ========================================================
+    // EU
+    // ========================================================
+
+    try {
+
+        const xml =
+            await googleSanctionsRss(
+                "site:finance.ec.europa.eu sanctions restrictive measures",
+                "en-US",
+                "EU",
+                "EU:en"
+            );
+
+        result.eu = {
+
+            success: true,
+
+            news:
+                parseNewsRss(
+                    xml,
+                    "EU"
+                ),
+
+            officialUrl:
+                "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
+        };
+
+    } catch (error) {
+
+        console.error(
+            "EU sanctions error:",
+            error.message
+        );
+    }
+
+
+    return result;
+}
+
+
+app.get(
+    "/api/sanctions-news",
+    async (req, res) => {
+
+        try {
+
+            const now =
+                Date.now();
+
+            const cached =
+                SANCTIONS_CACHE.get(
+                    "sanctions"
+                );
+
+            if (
+                cached &&
+                now -
+                    cached.time <
+                    10 *
+                    60 *
+                    1000
+            ) {
+
+                return res.json(
+                    cached.data
+                );
+            }
+
+            const sources =
+                await getSanctionsNews();
+
+            const data = {
+
+                success:
+                    true,
+
+                generatedAt:
+                    new Date()
+                        .toISOString(),
+
+                checkedEvery:
+                    "10 minutes",
+
+                sources
+            };
+
+            SANCTIONS_CACHE.set(
+                "sanctions",
+                {
+                    time:
+                        now,
+
+                    data
+                }
+            );
+
+            res.setHeader(
+                "Cache-Control",
+                "no-store"
+            );
+
+            res.json(
+                data
+            );
+
+        } catch (error) {
+
+            console.error(
+                "SANCTIONS API ERROR:",
+                error
+            );
+
+            res.status(
+                502
+            ).json({
+
+                success:
+                    false,
+
+                error:
+                    "Не вдалося перевірити санкційні джерела"
+            });
+        }
+    }
+);
 app.listen(
     PORT,
     () => {
