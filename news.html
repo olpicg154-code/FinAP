@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FinAP — Новини</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(0, 180, 255, 0.08),
+                    transparent 35%
+                ),
+                #07111f;
+
+            color: #fff;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        /* =========================================
+           TOP BAR
+        ========================================= */
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 78px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            z-index: 1000;
+
+            background:
+                rgba(7, 17, 31, 0.88);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .page-title {
+            margin: 0;
+
+            font-size: 24px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            color: #ffffff;
+
+            text-shadow:
+                0 0 8px rgba(0, 195, 255, 0.25);
+        }
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 132px;
+            height: 40px;
+
+            padding: 0 18px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid rgba(77, 211, 255, 0.55);
+
+            background:
+                rgba(0, 168, 255, 0.07);
+
+            color: #dff8ff;
+
+            text-decoration: none;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 0.8px;
+
+            box-shadow:
+                0 0 6px rgba(0, 200, 255, 0.28),
+                inset 0 0 10px rgba(0, 200, 255, 0.04);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-1px);
+
+            border-color:
+                rgba(77, 211, 255, 0.9);
+
+            background:
+                rgba(0, 168, 255, 0.12);
+
+            box-shadow:
+                0 0 10px rgba(0, 200, 255, 0.45),
+                0 0 20px rgba(0, 200, 255, 0.14),
+                inset 0 0 10px rgba(0, 200, 255, 0.06);
+        }
+
+        .home-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* =========================================
+           CONTENT
+        ========================================= */
+
+        .page {
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding:
+                118px
+                24px
+                50px;
+        }
+
+        .news-heading {
+            margin-bottom: 28px;
+        }
+
+        .news-heading h1 {
+            margin: 0 0 8px;
+
+            font-size: 34px;
+            line-height: 1.1;
+        }
+
+        .news-heading p {
+            margin: 0;
+
+            color:
+                rgba(255,255,255,0.55);
+
+            font-size: 14px;
+        }
+
+        /* =========================================
+           NEWS GRID
+        ========================================= */
+
+        .news-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+        .news-card {
+            min-height: 190px;
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,0.035);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.16);
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-3px);
+
+            border-color:
+                rgba(0, 195, 255, 0.28);
+
+            box-shadow:
+                0 14px 36px rgba(0,0,0,0.22),
+                0 0 18px rgba(0,195,255,0.07);
+        }
+
+        .news-date {
+            margin-bottom: 10px;
+
+            color: #69dfff;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+
+        .news-title {
+            margin: 0 0 10px;
+
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .news-text {
+            margin: 0;
+
+            color:
+                rgba(255,255,255,0.62);
+
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .empty {
+            padding: 40px 20px;
+
+            text-align: center;
+
+            color:
+                rgba(255,255,255,0.45);
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                height: 68px;
+
+                padding:
+                    0
+                    14px;
+            }
+
+            .page-title {
+                font-size: 18px;
+            }
+
+            .home-btn {
+                min-width: 112px;
+                height: 36px;
+
+                padding: 0 12px;
+
+                font-size: 10px;
+            }
+
+            .page {
+                padding:
+                    98px
+                    14px
+                    35px;
+            }
+
+            .news-heading h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <h1 class="page-title">
+            FINAP NEWS
+        </h1>
+
+        <a
+            href="index.html"
+            class="home-btn">
+            НА ГОЛОВНУ
+        </a>
+
+    </header>
+
+
+    <main class="page">
+
+        <section class="news-heading">
+
+            <h1>
+                Новини
+            </h1>
+
+            <p>
+                Актуальні фінансові та регуляторні новини.
+            </p>
+
+        </section>
+
+
+        <section
+            id="newsGrid"
+            class="news-grid">
+
+            <div class="empty">
+                Завантаження новин...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        async function loadNews() {
+
+            const grid =
+                document.getElementById(
+                    "newsGrid"
+                );
+
+            try {
+
+                const response =
+                    await fetch(
+                        "news.json",
+                        {
+                            cache: "no-store"
+                        }
+                    );
+
+                if (
+                    !response.ok
+                ) {
+
+                    throw new Error(
+                        "News HTTP " +
+                        response.status
+                    );
+                }
+
+                const news =
+                    await response.json();
+
+                if (
+                    !Array.isArray(news) ||
+                    news.length === 0
+                ) {
+
+                    grid.innerHTML = `
+                        <div class="empty">
+                            Новин поки немає.
+                        </div>
+                    `;
+
+                    return;
+                }
+
+                grid.innerHTML =
+                    news.map(
+                        item => {
+
+                            const date =
+                                item.date ||
+                                "";
+
+                            const title =
+                                item.title ||
+                                "Без заголовка";
+
+                            const text =
+                                item.description ||
+                                item.text ||
+                                "";
+
+                            return `
+                                <article
+                                    class="news-card">
+
+                                    <div class="news-date">
+                                        ${escapeHtml(date)}
+                                    </div>
+
+                                    <h2
+                                        class="news-title">
+                                        ${escapeHtml(title)}
+                                    </h2>
+
+                                    <p
+                                        class="news-text">
+                                        ${escapeHtml(text)}
+                                    </p>
+
+                                </article>
+                            `;
+                        }
+                    )
+                    .join("");
+
+            } catch (error) {
+
+                console.error(
+                    "News error:",
+                    error
+                );
+
+                grid.innerHTML = `
+                    <div class="empty">
+                        Не вдалося завантажити новини.
+                    </div>
+                `;
+            }
+        }
+
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+        }
+
+
+        loadNews();
+
+    </script>
+
+</body>
+
+</html>
